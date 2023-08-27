@@ -12,12 +12,15 @@ class CanvasViewController: UIViewController {
     var movementEnabled = false {
         didSet {
             canvasView.movementEnabled = movementEnabled
-            if movementEnabled {
-                addGestures()
-            }
-            else {
-                removeGestures()
-            }
+            if movementEnabled { addMoveGestures() }
+            else { removeMoveGestures() }
+        }
+    }
+    var eyedropper = false {
+        didSet {
+            canvasView.eyedropper = eyedropper
+            if eyedropper { addEyedropper() }
+            else { removeEyedropper() }
         }
     }
     var canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -29,6 +32,16 @@ class CanvasViewController: UIViewController {
     
     var pinch = UIPinchGestureRecognizer()
     var pan = UIPanGestureRecognizer()
+    var dropperPan = UIPanGestureRecognizer()
+    
+    var magnifyingGlass = MagnifyingGlassView(offset: CGPoint.zero,
+                                              radius: 50.0,
+                                              scale: 2.0,
+                                              borderColor: UIColor.lightGray,
+                                              borderWidth: 3.0,
+                                              showsCrosshair: true,
+                                              crosshairColor: UIColor.lightGray,
+                                              crosshairWidth: 0.5)
     
     init(height: CGFloat = CGFloat(200), width: CGFloat = CGFloat(200)) {
         super.init(nibName: nil, bundle: nil)
@@ -51,19 +64,28 @@ class CanvasViewController: UIViewController {
         canvasView.center = view.center
     }
     
-    private func addGestures() {
+    private func addMoveGestures() {
         view.addGestureRecognizer(pinch)
         view.addGestureRecognizer(pan)
     }
     
-    private func removeGestures() {
+    private func removeMoveGestures() {
         view.removeGestureRecognizer(pinch)
         view.removeGestureRecognizer(pan)
+    }
+    
+    private func addEyedropper() {
+        view.addGestureRecognizer(dropperPan)
+    }
+    
+    private func removeEyedropper() {
+        view.removeGestureRecognizer(dropperPan)
     }
     
     func createCanvas() {
         canvasView.removeFromSuperview()
         canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: canvasWidth, height: canvasHeight))
+        view.backgroundColor = UIColor.black
         view.addSubview(canvasView)
         
         let initXScale = view.bounds.width / canvasWidth * 0.75
@@ -77,8 +99,7 @@ class CanvasViewController: UIViewController {
         
         pinch = UIPinchGestureRecognizer(target: self, action: #selector(didPinch(_:)))
         pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
-        
-        addGestures()
+        dropperPan = UIPanGestureRecognizer(target: self, action: #selector(didEyedrop(_:)))
     }
 
     @objc private func didPinch(_ gesture: UIPinchGestureRecognizer) {
@@ -95,9 +116,21 @@ class CanvasViewController: UIViewController {
     @objc private func didPan(_ gesture: UIPanGestureRecognizer) {
         if gesture.state == .began || gesture.state == .changed {
             let translation = gesture.translation(in: canvasView)
-            
             canvasView.transform = CGAffineTransformTranslate(canvasView.transform, translation.x, translation.y)
             gesture.setTranslation(CGPoint.zero, in: canvasView)
+        }
+    }
+    
+    @objc private func didEyedrop(_ gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began || gesture.state == .changed {
+            magnifyingGlass.magnifiedView = canvasView
+            magnifyingGlass.magnify(at: gesture.location(in: canvasView))
+            canvasView.eyedropper(location: gesture.location(in: canvasView))
+        }
+        if gesture.state == .ended {
+            magnifyingGlass.magnifiedView = nil
+            magnifyingGlass.magnify(at: gesture.location(in: canvasView))
+            canvasView.eyedropper(location: gesture.location(in: canvasView))
         }
     }
 }

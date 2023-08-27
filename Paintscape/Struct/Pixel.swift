@@ -18,17 +18,11 @@ struct Pixel: Equatable, Hashable {
         self.color = color
     }
     
-    init(x: CGFloat, y: CGFloat, color: RGBA32) {
-        self.x = Int(x)
-        self.y = Int(y)
-        self.color = color
-    }
-    
     init(point: CGPoint, view: UIImageView, color: RGBA32) {
         let xRatio = view.image!.scale * (view.image!.size.width / view.frame.size.width)
         let yRatio = view.image!.scale * (view.image!.size.height / view.frame.size.height)
-        self.x = Int(xRatio * point.x)
-        self.y = Int(yRatio * point.y)
+        self.x = Int(round(xRatio * point.x)) - 1
+        self.y = Int(round(yRatio * point.y)) - 1
         self.color = color
     }
     

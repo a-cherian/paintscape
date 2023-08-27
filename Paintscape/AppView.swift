@@ -10,6 +10,7 @@ import Sliders
 
 struct AppView: View {
     @State var movementEnabled = false
+    @State var eyedropper = false
     @State var primary: Color = .black
     @State var secondary: Color = Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 1.0)
     @State var tool: String = ""
@@ -28,7 +29,7 @@ struct AppView: View {
     var body: some View {
         ZStack {
             VStack {
-                CanvasViewControllerR(w: $width, h: $height, mO: $movementEnabled, tS: $tipSize, tT: $tipType, p: $primary, s: $secondary, t: $tool, u: $undo, r: $redo)
+                CanvasViewControllerR(w: $width, h: $height, mO: $movementEnabled, e: $eyedropper, tS: $tipSize, tT: $tipType, p: $primary, s: $secondary, t: $tool, u: $undo, r: $redo)
             }
             HStack {
                 // left
@@ -108,21 +109,8 @@ struct AppView: View {
                         .accentColor(Color.white)
                         .cornerRadius(25)
                         .controlSize(.large)
-                        
-                        Button(action: {
-                            if tool == "" {
-                                tool = "replace"
-                            }
-                            else if tool == "replace" {
-                                tool = ""
-                            }
-                        }) {
-                            Image(systemName: tool == "replace" ? "square.filled.on.square" : "square.fill.on.square.fill").frame(width: 50, height: 50)
-                        }
-                        .background(tool == "replace" ? Color.blue : Color.orange.opacity(0.5))
-                        .accentColor(Color.white)
-                        .cornerRadius(25)
-                        .controlSize(.large)
+                        ToolButton(name: "replace", iconOn: "square.filled.on.square", iconOff: "square.fill.on.square.fill")
+                        ToolButton(name: "eyedropper", iconOn: "eyedropper.full", iconOff: "eyedropper")
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
                     
@@ -185,6 +173,20 @@ struct AppView: View {
             }
         }
         .padding()
+    }
+    
+    func ToolButton(name: String, iconOn: String, iconOff: String) -> some View {
+        let toolOn = tool == name
+        return Button(action: {
+            if toolOn { tool = "" }
+            else { tool = name }
+        }) {
+            Image(systemName: toolOn ? iconOn : iconOff).frame(width: 50, height: 50)
+        }
+        .background(toolOn ? Color.blue : Color.orange.opacity(0.5))
+        .accentColor(Color.white)
+        .cornerRadius(25)
+        .controlSize(.large)
     }
 }
 

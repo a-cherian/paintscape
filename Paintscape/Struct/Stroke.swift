@@ -34,7 +34,7 @@ struct Stroke {
         var pixels = [Pixel]()
         
         region.forEach { pixel in
-            if pixel.x > 0 && pixel.y > 0 && pixel.x < xBounds && pixel.y < yBounds {
+            if pixel.x >= 0 && pixel.y >= 0 && pixel.x < xBounds && pixel.y < yBounds {
                 let offset = pixel.y * xBounds + pixel.x
                 let currColor = img[offset]
                 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		400310062A9B2AD70038E61B /* MagnifyingGlass in Frameworks */ = {isa = PBXBuildFile; productRef = 400310052A9B2AD70038E61B /* MagnifyingGlass */; };
+		400310082A9B2CFC0038E61B /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */; };
 		405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */; };
 		405A95C42A8F3C1B00DA5A8E /* CanvasViewControllerR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */; };
 		405A95C82A902E5900DA5A8E /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C72A902E5900DA5A8E /* Stroke.swift */; };
@@ -61,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifyingGlassView.swift; sourceTree = "<group>"; };
 		405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewControllerR.swift; sourceTree = "<group>"; };
 		405A95C72A902E5900DA5A8E /* Stroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
@@ -99,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				400310062A9B2AD70038E61B /* MagnifyingGlass in Frameworks */,
 				405A95D22A9090DF00DA5A8E /* Sliders in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +196,7 @@
 				4077D5FA2A9218C4006D86EC /* Old */,
 				40C76A342A93888A0073B464 /* Paintscape-Bridging-Header.h */,
 				40C76A372A94AAEF0073B464 /* Playground.swift */,
+				400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */,
 			);
 			path = Paintscape;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 			name = Paintscape;
 			packageProductDependencies = (
 				405A95D12A9090DF00DA5A8E /* Sliders */,
+				400310052A9B2AD70038E61B /* MagnifyingGlass */,
 			);
 			productName = Paintscape;
 			productReference = 407E78372A8C83270017EF3C /* Paintscape.app */;
@@ -315,6 +321,7 @@
 			mainGroup = 407E782E2A8C83270017EF3C;
 			packageReferences = (
 				405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
+				400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */,
 			);
 			productRefGroup = 407E78382A8C83270017EF3C /* Products */;
 			projectDirPath = "";
@@ -368,6 +375,7 @@
 				405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */,
 				407E783D2A8C83270017EF3C /* AppView.swift in Sources */,
 				407E783B2A8C83270017EF3C /* PaintscapeApp.swift in Sources */,
+				400310082A9B2CFC0038E61B /* MagnifyingGlassView.swift in Sources */,
 				4077D5FC2A921905006D86EC /* Pixel.swift in Sources */,
 				40C76A382A94AAEF0073B464 /* Playground.swift in Sources */,
 				4077D6082A935F79006D86EC /* UIBezierPathExtension.swift in Sources */,
@@ -756,6 +764,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/niczyja/MagnifyingGlass-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/spacenation/swiftui-sliders";
@@ -767,6 +783,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		400310052A9B2AD70038E61B /* MagnifyingGlass */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */;
+			productName = MagnifyingGlass;
+		};
 		405A95D12A9090DF00DA5A8E /* Sliders */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */;

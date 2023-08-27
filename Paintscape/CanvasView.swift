@@ -7,19 +7,26 @@
 
 import UIKit
 import SwiftUI
+import MagnifyingGlass
+
+protocol CanvasViewDelegate: AnyObject {
+    func didColorChange(_ color: RGBA32)
+}
 
 // https://stackoverflow.com/a/41009006/4488252
 class CanvasView: UIView {
+    weak var delegate: CanvasViewDelegate?
     var movementEnabled = false
+    var eyedropper = false
     var stroke = Stroke()
     let imageView = UIImageView()
-    var img = UIImage()
     private lazy var path = UIBezierPath()
     private lazy var previousTouchPoint = CGPoint.zero
     var touchPoints = [Pixel]()
     var centers = [Pixel]()
     var action = [Pixel: Pixel]()
     var history = History(maxItems: 50)
+    var magnifyingGlass = MagnifyingGlassView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,15 +51,22 @@ class CanvasView: UIView {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.setFillColor(UIColor.white.cgColor)
         UIRectFill(CGRectMake(0, 0, size.width, size.height));
-        img = UIGraphicsGetImageFromCurrentImageContext() ??  UIImage();
+        let img = UIGraphicsGetImageFromCurrentImageContext() ??  UIImage();
         UIGraphicsEndImageContext();
         
         imageView.image = img
-        
         imageView.setNeedsDisplay()
         
-        layer.borderColor = UIColor.orange.cgColor
-        layer.borderWidth = 1
+        magnifyingGlass = MagnifyingGlassView(offset: CGPoint.zero,
+                                              radius: 30.0,
+                                              scale: 2.0,
+                                              borderColor: UIColor.lightGray,
+                                              borderWidth: 3.0,
+                                              showsCrosshair: true,
+                                              crosshairColor: UIColor.lightGray,
+                                              crosshairWidth: 0.5)
+        
+        layer.magnificationFilter = CALayerContentsFilter.nearest
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,6 +87,10 @@ class CanvasView: UIView {
         let pixels = history.redo(image: imageView.image!, width: width, height: height)
         imageView.image = changePixels(in: imageView.image!, pixels: pixels, stroke: Stroke(tool: "history"))
         setNeedsDisplay()
+    }
+    
+    func eyedropper(location: CGPoint) {
+        delegate?.didColorChange(getPixel(in: imageView.image!, pixel: Pixel(point: location, view: imageView, color: RGBA32())))
     }
     
     // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
@@ -114,7 +132,6 @@ class CanvasView: UIView {
                 pixelBuffer[offset] = pixel.color
             }
         }
-        
 
         let outputCGImage = context.makeImage()!
         let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
@@ -124,10 +141,45 @@ class CanvasView: UIView {
         
         return outputImage
     }
+    
+    // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
+    func getPixel(in image: UIImage, pixel: Pixel) -> RGBA32 {
+        guard let inputCGImage = image.cgImage else {
+            return RGBA32()
+        }
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = inputCGImage.width
+        let height           = inputCGImage.height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = RGBA32.bitmapInfo
+
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return RGBA32()
+        }
+        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+
+        guard let buffer = context.data else {
+            return RGBA32()
+        }
+
+        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
+        
+        let xBounds = Int(imageView.image!.size.width * imageView.image!.scale)
+        let yBounds = Int(imageView.image!.size.height * imageView.image!.scale)
+        
+        if pixel.x > 0 && pixel.y > 0 && pixel.x < xBounds && pixel.y < yBounds {
+            let offset = pixel.y * xBounds + pixel.x
+            let currColor = pixelBuffer[offset]
+            return currColor
+        }
+    
+       return RGBA32()
+    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled) {
-            return }
+        if(movementEnabled || eyedropper) { return }
         
         super.touchesBegan(touches, with: event)
         guard let touch = touches.first else { return }
@@ -138,7 +190,7 @@ class CanvasView: UIView {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled) { return }
+        if(movementEnabled || eyedropper) { return }
         
         super.touchesMoved(touches, with: event)
         touches.forEach { touch in
@@ -172,7 +224,7 @@ class CanvasView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled) { return }
+        if(movementEnabled || eyedropper) { return }
         
         history.add(action: Array(action.values))
         action = [Pixel: Pixel]()

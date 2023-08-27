@@ -8,8 +8,8 @@
 import SwiftUI
 
 extension Color {
-    var uiColor: UIColor { .init(self) }
     typealias RGBA = (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat)
+    var uiColor: UIColor { .init(self) }
     
     var rgba: RGBA? {
         var (r, g, b, a): RGBA = (0, 0, 0, 0)
@@ -31,5 +31,13 @@ extension Color {
             Int(green * 255),
             Int(blue * 255),
             Int(alpha * 255))
+    }
+    
+    init(r: UInt8, g: UInt8, b: UInt8) {
+        self.init(
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255
+        )
     }
 }
