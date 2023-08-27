@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CanvasViewControllerR: UIViewControllerRepresentable {
     @Binding var movementEnabled: Bool
-    @Binding var eyedropper: Bool
     @Binding var tipSize: Double
     @Binding var tipType: TipType
     @Binding var primary: Color
@@ -20,11 +19,10 @@ struct CanvasViewControllerR: UIViewControllerRepresentable {
     @Binding var width: Int
     @Binding var height: Int
     
-    init(w: Binding<Int>, h: Binding<Int>, mO: Binding<Bool>, e: Binding<Bool>, tS: Binding<Double>, tT: Binding<TipType>, p: Binding<Color>, s: Binding<Color>, t: Binding<String>, u: Binding<Bool>, r: Binding<Bool>) {
+    init(w: Binding<Int>, h: Binding<Int>, mO: Binding<Bool>, tS: Binding<Double>, tT: Binding<TipType>, p: Binding<Color>, s: Binding<Color>, t: Binding<String>, u: Binding<Bool>, r: Binding<Bool>) {
         self._width = w
         self._height = h
         self._movementEnabled = mO
-        self._eyedropper = e
         self._tipSize = tS
         self._tipType = tT
         self._primary = p
@@ -69,7 +67,7 @@ struct CanvasViewControllerR: UIViewControllerRepresentable {
         controller.movementEnabled = self.movementEnabled
         controller.canvasView.movementEnabled = self.movementEnabled
         controller.eyedropper = tool == "eyedropper"
-        controller.canvasView.eyedropper = self.eyedropper
+        controller.eyedropper = tool == "eyedropper"
         controller.canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary)
     }
     

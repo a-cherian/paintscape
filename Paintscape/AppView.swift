@@ -10,7 +10,6 @@ import Sliders
 
 struct AppView: View {
     @State var movementEnabled = false
-    @State var eyedropper = false
     @State var primary: Color = .black
     @State var secondary: Color = Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 1.0)
     @State var tool: String = ""
@@ -29,7 +28,7 @@ struct AppView: View {
     var body: some View {
         ZStack {
             VStack {
-                CanvasViewControllerR(w: $width, h: $height, mO: $movementEnabled, e: $eyedropper, tS: $tipSize, tT: $tipType, p: $primary, s: $secondary, t: $tool, u: $undo, r: $redo)
+                CanvasViewControllerR(w: $width, h: $height, mO: $movementEnabled, tS: $tipSize, tT: $tipType, p: $primary, s: $secondary, t: $tool, u: $undo, r: $redo)
             }
             HStack {
                 // left
