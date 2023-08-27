@@ -7,13 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */; };
+		405A95C42A8F3C1B00DA5A8E /* CanvasViewControllerR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */; };
+		405A95C82A902E5900DA5A8E /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C72A902E5900DA5A8E /* Stroke.swift */; };
+		405A95CA2A902F5000DA5A8E /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C92A902F5000DA5A8E /* RGBA32.swift */; };
+		405A95CC2A90319700DA5A8E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CB2A90319700DA5A8E /* Tip.swift */; };
+		405A95CD2A90457500DA5A8E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CB2A90319700DA5A8E /* Tip.swift */; };
+		405A95CF2A9089AC00DA5A8E /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */; };
+		405A95D22A9090DF00DA5A8E /* Sliders in Frameworks */ = {isa = PBXBuildFile; productRef = 405A95D12A9090DF00DA5A8E /* Sliders */; };
+		405A95D42A91830500DA5A8E /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95D32A91830500DA5A8E /* History.swift */; };
+		4077D5F82A92185A006D86EC /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95D32A91830500DA5A8E /* History.swift */; };
+		4077D5F92A9218A2006D86EC /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C92A902F5000DA5A8E /* RGBA32.swift */; };
+		4077D5FC2A921905006D86EC /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D5FB2A921905006D86EC /* Pixel.swift */; };
+		4077D5FD2A921905006D86EC /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D5FB2A921905006D86EC /* Pixel.swift */; };
+		4077D6052A934864006D86EC /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6042A934864006D86EC /* CurveHelper.swift */; };
+		4077D6062A934864006D86EC /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6042A934864006D86EC /* CurveHelper.swift */; };
+		4077D6082A935F79006D86EC /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */; };
+		4077D6092A935F79006D86EC /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */; };
+		4077D60B2A93612F006D86EC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D60A2A93612F006D86EC /* CGPointExtension.swift */; };
+		4077D60C2A93612F006D86EC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D60A2A93612F006D86EC /* CGPointExtension.swift */; };
 		407E783B2A8C83270017EF3C /* PaintscapeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E783A2A8C83270017EF3C /* PaintscapeApp.swift */; };
-		407E783D2A8C83270017EF3C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E783C2A8C83270017EF3C /* ContentView.swift */; };
+		407E783D2A8C83270017EF3C /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E783C2A8C83270017EF3C /* AppView.swift */; };
 		407E783F2A8C832A0017EF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407E783E2A8C832A0017EF3C /* Assets.xcassets */; };
 		407E78432A8C832A0017EF3C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407E78422A8C832A0017EF3C /* Preview Assets.xcassets */; };
 		407E784D2A8C832A0017EF3C /* PaintscapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E784C2A8C832A0017EF3C /* PaintscapeTests.swift */; };
 		407E78572A8C832A0017EF3C /* PaintscapeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78562A8C832A0017EF3C /* PaintscapeUITests.swift */; };
 		407E78592A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78582A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift */; };
+		407E786A2A8C94360017EF3C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78692A8C94360017EF3C /* UIViewExtension.swift */; };
+		407E786C2A8C954F0017EF3C /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */; };
+		407E78742A8DB30E0017EF3C /* DrawViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78732A8DB30E0017EF3C /* DrawViewOld.swift */; };
+		407E78772A8DB3A90017EF3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78752A8DB3A90017EF3C /* ViewController.swift */; };
+		407E787E2A8DF8400017EF3C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E787D2A8DF8400017EF3C /* CanvasView.swift */; };
+		407E78802A8DF89F0017EF3C /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */; };
+		40C76A382A94AAEF0073B464 /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C76A372A94AAEF0073B464 /* Playground.swift */; };
+		40C76A3A2A94C46B0073B464 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C76A392A94C46B0073B464 /* MenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +61,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewControllerR.swift; sourceTree = "<group>"; };
+		405A95C72A902E5900DA5A8E /* Stroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
+		405A95C92A902F5000DA5A8E /* RGBA32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA32.swift; sourceTree = "<group>"; };
+		405A95CB2A90319700DA5A8E /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
+		405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		405A95D32A91830500DA5A8E /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		4077D5FB2A921905006D86EC /* Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
+		4077D6042A934864006D86EC /* CurveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurveHelper.swift; sourceTree = "<group>"; };
+		4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIBezierPathExtension.swift; path = ../UIBezierPathExtension.swift; sourceTree = "<group>"; };
+		4077D60A2A93612F006D86EC /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		407E78372A8C83270017EF3C /* Paintscape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paintscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		407E783A2A8C83270017EF3C /* PaintscapeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeApp.swift; sourceTree = "<group>"; };
-		407E783C2A8C83270017EF3C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		407E783C2A8C83270017EF3C /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		407E783E2A8C832A0017EF3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		407E78402A8C832A0017EF3C /* Paintscape.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Paintscape.entitlements; sourceTree = "<group>"; };
 		407E78422A8C832A0017EF3C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -45,6 +83,15 @@
 		407E78522A8C832A0017EF3C /* PaintscapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		407E78562A8C832A0017EF3C /* PaintscapeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITests.swift; sourceTree = "<group>"; };
 		407E78582A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		407E78692A8C94360017EF3C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		407E78732A8DB30E0017EF3C /* DrawViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawViewOld.swift; sourceTree = "<group>"; };
+		407E78752A8DB3A90017EF3C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		407E787D2A8DF8400017EF3C /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		40C76A342A93888A0073B464 /* Paintscape-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Paintscape-Bridging-Header.h"; sourceTree = "<group>"; };
+		40C76A372A94AAEF0073B464 /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
+		40C76A392A94C46B0073B464 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				405A95D22A9090DF00DA5A8E /* Sliders in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +120,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4077D5F52A92052C006D86EC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4077D6042A934864006D86EC /* CurveHelper.swift */,
+				4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */,
+				407E78692A8C94360017EF3C /* UIViewExtension.swift */,
+				407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */,
+				407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */,
+				405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */,
+				4077D60A2A93612F006D86EC /* CGPointExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4077D5F72A921829006D86EC /* Struct */ = {
+			isa = PBXGroup;
+			children = (
+				405A95C92A902F5000DA5A8E /* RGBA32.swift */,
+				405A95D32A91830500DA5A8E /* History.swift */,
+				405A95CB2A90319700DA5A8E /* Tip.swift */,
+				405A95C72A902E5900DA5A8E /* Stroke.swift */,
+				4077D5FB2A921905006D86EC /* Pixel.swift */,
+			);
+			path = Struct;
+			sourceTree = "<group>";
+		};
+		4077D5FA2A9218C4006D86EC /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				407E78732A8DB30E0017EF3C /* DrawViewOld.swift */,
+				407E78752A8DB3A90017EF3C /* ViewController.swift */,
+			);
+			path = Old;
+			sourceTree = "<group>";
+		};
 		407E782E2A8C83270017EF3C = {
 			isa = PBXGroup;
 			children = (
@@ -95,11 +178,20 @@
 		407E78392A8C83270017EF3C /* Paintscape */ = {
 			isa = PBXGroup;
 			children = (
+				407E787D2A8DF8400017EF3C /* CanvasView.swift */,
+				405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */,
+				405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */,
+				407E783C2A8C83270017EF3C /* AppView.swift */,
 				407E783A2A8C83270017EF3C /* PaintscapeApp.swift */,
-				407E783C2A8C83270017EF3C /* ContentView.swift */,
+				40C76A392A94C46B0073B464 /* MenuView.swift */,
+				4077D5F72A921829006D86EC /* Struct */,
+				4077D5F52A92052C006D86EC /* Extensions */,
 				407E783E2A8C832A0017EF3C /* Assets.xcassets */,
 				407E78402A8C832A0017EF3C /* Paintscape.entitlements */,
 				407E78412A8C832A0017EF3C /* Preview Content */,
+				4077D5FA2A9218C4006D86EC /* Old */,
+				40C76A342A93888A0073B464 /* Paintscape-Bridging-Header.h */,
+				40C76A372A94AAEF0073B464 /* Playground.swift */,
 			);
 			path = Paintscape;
 			sourceTree = "<group>";
@@ -145,6 +237,9 @@
 			dependencies = (
 			);
 			name = Paintscape;
+			packageProductDependencies = (
+				405A95D12A9090DF00DA5A8E /* Sliders */,
+			);
 			productName = Paintscape;
 			productReference = 407E78372A8C83270017EF3C /* Paintscape.app */;
 			productType = "com.apple.product-type.application";
@@ -197,6 +292,7 @@
 				TargetAttributes = {
 					407E78362A8C83270017EF3C = {
 						CreatedOnToolsVersion = 14.0.1;
+						LastSwiftMigration = 1400;
 					};
 					407E78472A8C832A0017EF3C = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -217,6 +313,9 @@
 				Base,
 			);
 			mainGroup = 407E782E2A8C83270017EF3C;
+			packageReferences = (
+				405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
+			);
 			productRefGroup = 407E78382A8C83270017EF3C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,8 +358,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				407E783D2A8C83270017EF3C /* ContentView.swift in Sources */,
+				407E786A2A8C94360017EF3C /* UIViewExtension.swift in Sources */,
+				407E78742A8DB30E0017EF3C /* DrawViewOld.swift in Sources */,
+				4077D60B2A93612F006D86EC /* CGPointExtension.swift in Sources */,
+				407E78772A8DB3A90017EF3C /* ViewController.swift in Sources */,
+				405A95CF2A9089AC00DA5A8E /* ColorExtension.swift in Sources */,
+				407E786C2A8C954F0017EF3C /* UIViewControllerExtension.swift in Sources */,
+				40C76A3A2A94C46B0073B464 /* MenuView.swift in Sources */,
+				405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */,
+				407E783D2A8C83270017EF3C /* AppView.swift in Sources */,
 				407E783B2A8C83270017EF3C /* PaintscapeApp.swift in Sources */,
+				4077D5FC2A921905006D86EC /* Pixel.swift in Sources */,
+				40C76A382A94AAEF0073B464 /* Playground.swift in Sources */,
+				4077D6082A935F79006D86EC /* UIBezierPathExtension.swift in Sources */,
+				407E787E2A8DF8400017EF3C /* CanvasView.swift in Sources */,
+				405A95C42A8F3C1B00DA5A8E /* CanvasViewControllerR.swift in Sources */,
+				405A95CA2A902F5000DA5A8E /* RGBA32.swift in Sources */,
+				405A95D42A91830500DA5A8E /* History.swift in Sources */,
+				407E78802A8DF89F0017EF3C /* UIImageViewExtension.swift in Sources */,
+				405A95CC2A90319700DA5A8E /* Tip.swift in Sources */,
+				405A95C82A902E5900DA5A8E /* Stroke.swift in Sources */,
+				4077D6052A934864006D86EC /* CurveHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +386,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4077D5F92A9218A2006D86EC /* RGBA32.swift in Sources */,
+				4077D6062A934864006D86EC /* CurveHelper.swift in Sources */,
+				4077D5F82A92185A006D86EC /* History.swift in Sources */,
+				4077D5FD2A921905006D86EC /* Pixel.swift in Sources */,
 				407E784D2A8C832A0017EF3C /* PaintscapeTests.swift in Sources */,
+				405A95CD2A90457500DA5A8E /* Tip.swift in Sources */,
+				4077D6092A935F79006D86EC /* UIBezierPathExtension.swift in Sources */,
+				4077D60C2A93612F006D86EC /* CGPointExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +472,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -399,6 +525,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -411,6 +538,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Paintscape/Paintscape.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -429,7 +557,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
@@ -437,8 +565,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.Paintscape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Paintscape/Paintscape-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,6 +581,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Paintscape/Paintscape.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -467,7 +600,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
@@ -475,8 +608,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.Paintscape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Paintscape/Paintscape-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -491,13 +627,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -514,13 +651,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -536,13 +674,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -558,13 +698,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -612,6 +754,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/spacenation/swiftui-sliders";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		405A95D12A9090DF00DA5A8E /* Sliders */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */;
+			productName = Sliders;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 407E782F2A8C83270017EF3C /* Project object */;
 }
