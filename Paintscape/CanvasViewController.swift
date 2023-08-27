@@ -53,12 +53,12 @@ class CanvasViewController: UIViewController {
     
     private func addGestures() {
         view.addGestureRecognizer(pinch)
-        canvasView.addGestureRecognizer(pan)
+        view.addGestureRecognizer(pan)
     }
     
     private func removeGestures() {
         view.removeGestureRecognizer(pinch)
-        canvasView.removeGestureRecognizer(pan)
+        view.removeGestureRecognizer(pan)
     }
     
     func createCanvas() {
@@ -94,10 +94,10 @@ class CanvasViewController: UIViewController {
     
     @objc private func didPan(_ gesture: UIPanGestureRecognizer) {
         if gesture.state == .began || gesture.state == .changed {
-            let translation = gesture.translation(in: gesture.view)
+            let translation = gesture.translation(in: canvasView)
             
             canvasView.transform = CGAffineTransformTranslate(canvasView.transform, translation.x, translation.y)
-            gesture.setTranslation(CGPoint.zero, in: gesture.view)
+            gesture.setTranslation(CGPoint.zero, in: canvasView)
         }
     }
 }
