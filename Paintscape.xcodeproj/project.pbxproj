@@ -7,114 +7,96 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		400310062A9B2AD70038E61B /* MagnifyingGlass in Frameworks */ = {isa = PBXBuildFile; productRef = 400310052A9B2AD70038E61B /* MagnifyingGlass */; };
-		400310082A9B2CFC0038E61B /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */; };
-		405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */; };
-		405A95C42A8F3C1B00DA5A8E /* CanvasViewControllerR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */; };
-		405A95C82A902E5900DA5A8E /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C72A902E5900DA5A8E /* Stroke.swift */; };
-		405A95CA2A902F5000DA5A8E /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C92A902F5000DA5A8E /* RGBA32.swift */; };
-		405A95CC2A90319700DA5A8E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CB2A90319700DA5A8E /* Tip.swift */; };
-		405A95CD2A90457500DA5A8E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CB2A90319700DA5A8E /* Tip.swift */; };
-		405A95CF2A9089AC00DA5A8E /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */; };
-		405A95D22A9090DF00DA5A8E /* Sliders in Frameworks */ = {isa = PBXBuildFile; productRef = 405A95D12A9090DF00DA5A8E /* Sliders */; };
-		405A95D42A91830500DA5A8E /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95D32A91830500DA5A8E /* History.swift */; };
-		4077D5F82A92185A006D86EC /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95D32A91830500DA5A8E /* History.swift */; };
-		4077D5F92A9218A2006D86EC /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405A95C92A902F5000DA5A8E /* RGBA32.swift */; };
-		4077D5FC2A921905006D86EC /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D5FB2A921905006D86EC /* Pixel.swift */; };
-		4077D5FD2A921905006D86EC /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D5FB2A921905006D86EC /* Pixel.swift */; };
-		4077D6052A934864006D86EC /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6042A934864006D86EC /* CurveHelper.swift */; };
-		4077D6062A934864006D86EC /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6042A934864006D86EC /* CurveHelper.swift */; };
-		4077D6082A935F79006D86EC /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */; };
-		4077D6092A935F79006D86EC /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */; };
-		4077D60B2A93612F006D86EC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D60A2A93612F006D86EC /* CGPointExtension.swift */; };
-		4077D60C2A93612F006D86EC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077D60A2A93612F006D86EC /* CGPointExtension.swift */; };
-		407E783B2A8C83270017EF3C /* PaintscapeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E783A2A8C83270017EF3C /* PaintscapeApp.swift */; };
-		407E783D2A8C83270017EF3C /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E783C2A8C83270017EF3C /* AppView.swift */; };
-		407E783F2A8C832A0017EF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407E783E2A8C832A0017EF3C /* Assets.xcassets */; };
-		407E78432A8C832A0017EF3C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 407E78422A8C832A0017EF3C /* Preview Assets.xcassets */; };
-		407E784D2A8C832A0017EF3C /* PaintscapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E784C2A8C832A0017EF3C /* PaintscapeTests.swift */; };
-		407E78572A8C832A0017EF3C /* PaintscapeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78562A8C832A0017EF3C /* PaintscapeUITests.swift */; };
-		407E78592A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78582A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift */; };
-		407E786A2A8C94360017EF3C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78692A8C94360017EF3C /* UIViewExtension.swift */; };
-		407E786C2A8C954F0017EF3C /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */; };
-		407E78742A8DB30E0017EF3C /* DrawViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78732A8DB30E0017EF3C /* DrawViewOld.swift */; };
-		407E78772A8DB3A90017EF3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E78752A8DB3A90017EF3C /* ViewController.swift */; };
-		407E787E2A8DF8400017EF3C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E787D2A8DF8400017EF3C /* CanvasView.swift */; };
-		407E78802A8DF89F0017EF3C /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */; };
-		40C76A382A94AAEF0073B464 /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C76A372A94AAEF0073B464 /* Playground.swift */; };
-		40C76A3A2A94C46B0073B464 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C76A392A94C46B0073B464 /* MenuView.swift */; };
+		4003101C2A9C73670038E61B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003101B2A9C73670038E61B /* AppDelegate.swift */; };
+		4003101E2A9C73670038E61B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003101D2A9C73670038E61B /* SceneDelegate.swift */; };
+		400310252A9C736A0038E61B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 400310242A9C736A0038E61B /* Assets.xcassets */; };
+		400310332A9C736B0038E61B /* PaintscapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400310322A9C736B0038E61B /* PaintscapeTests.swift */; };
+		4003103D2A9C736B0038E61B /* PaintscapeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */; };
+		4003103F2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */; };
+		40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0502D2A9F0E9400D0566C /* CanvasView.swift */; };
+		40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050312A9F0EA100D0566C /* AppViewController.swift */; };
+		40D050362A9F0EAB00D0566C /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */; };
+		40D050382A9F0EAF00D0566C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050372A9F0EAF00D0566C /* MenuView.swift */; };
+		40D050402A9F0F7700D0566C /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503B2A9F0F7700D0566C /* Pixel.swift */; };
+		40D050412A9F0F7700D0566C /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503C2A9F0F7700D0566C /* Tip.swift */; };
+		40D050422A9F0F7700D0566C /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503D2A9F0F7700D0566C /* History.swift */; };
+		40D050432A9F0F7700D0566C /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503E2A9F0F7700D0566C /* RGBA32.swift */; };
+		40D050442A9F0F7700D0566C /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503F2A9F0F7700D0566C /* Stroke.swift */; };
+		40D0504B2A9F0F8B00D0566C /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050452A9F0F8A00D0566C /* UIViewControllerExtension.swift */; };
+		40D0504C2A9F0F8B00D0566C /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050462A9F0F8A00D0566C /* CurveHelper.swift */; };
+		40D0504D2A9F0F8B00D0566C /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050472A9F0F8A00D0566C /* UIImageViewExtension.swift */; };
+		40D0504E2A9F0F8B00D0566C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050482A9F0F8B00D0566C /* UIColorExtension.swift */; };
+		40D0504F2A9F0F8B00D0566C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050492A9F0F8B00D0566C /* UIViewExtension.swift */; };
+		40D050562A9F3D9900D0566C /* ContainerStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050552A9F3D9900D0566C /* ContainerStackView.swift */; };
+		40D050572A9F3DF700D0566C /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503C2A9F0F7700D0566C /* Tip.swift */; };
+		40D050582A9F3DFF00D0566C /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503D2A9F0F7700D0566C /* History.swift */; };
+		40D050592A9F3E0400D0566C /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503B2A9F0F7700D0566C /* Pixel.swift */; };
+		40D0505A2A9F3E0600D0566C /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503F2A9F0F7700D0566C /* Stroke.swift */; };
+		40D0505B2A9F3E0900D0566C /* RGBA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0503E2A9F0F7700D0566C /* RGBA32.swift */; };
+		40D0505C2A9F3E2900D0566C /* CurveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050462A9F0F8A00D0566C /* CurveHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		407E78492A8C832A0017EF3C /* PBXContainerItemProxy */ = {
+		4003102F2A9C736B0038E61B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 407E782F2A8C83270017EF3C /* Project object */;
+			containerPortal = 400310102A9C73670038E61B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 407E78362A8C83270017EF3C;
-			remoteInfo = Paintscape;
+			remoteGlobalIDString = 400310172A9C73670038E61B;
+			remoteInfo = idk;
 		};
-		407E78532A8C832A0017EF3C /* PBXContainerItemProxy */ = {
+		400310392A9C736B0038E61B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 407E782F2A8C83270017EF3C /* Project object */;
+			containerPortal = 400310102A9C73670038E61B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 407E78362A8C83270017EF3C;
-			remoteInfo = Paintscape;
+			remoteGlobalIDString = 400310172A9C73670038E61B;
+			remoteInfo = idk;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifyingGlassView.swift; sourceTree = "<group>"; };
-		405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewControllerR.swift; sourceTree = "<group>"; };
-		405A95C72A902E5900DA5A8E /* Stroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
-		405A95C92A902F5000DA5A8E /* RGBA32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBA32.swift; sourceTree = "<group>"; };
-		405A95CB2A90319700DA5A8E /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
-		405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		405A95D32A91830500DA5A8E /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
-		4077D5FB2A921905006D86EC /* Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
-		4077D6042A934864006D86EC /* CurveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurveHelper.swift; sourceTree = "<group>"; };
-		4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIBezierPathExtension.swift; path = ../UIBezierPathExtension.swift; sourceTree = "<group>"; };
-		4077D60A2A93612F006D86EC /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
-		407E78372A8C83270017EF3C /* Paintscape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paintscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		407E783A2A8C83270017EF3C /* PaintscapeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeApp.swift; sourceTree = "<group>"; };
-		407E783C2A8C83270017EF3C /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
-		407E783E2A8C832A0017EF3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		407E78402A8C832A0017EF3C /* Paintscape.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Paintscape.entitlements; sourceTree = "<group>"; };
-		407E78422A8C832A0017EF3C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		407E78482A8C832A0017EF3C /* PaintscapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		407E784C2A8C832A0017EF3C /* PaintscapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeTests.swift; sourceTree = "<group>"; };
-		407E78522A8C832A0017EF3C /* PaintscapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		407E78562A8C832A0017EF3C /* PaintscapeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITests.swift; sourceTree = "<group>"; };
-		407E78582A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		407E78692A8C94360017EF3C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
-		407E78732A8DB30E0017EF3C /* DrawViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawViewOld.swift; sourceTree = "<group>"; };
-		407E78752A8DB3A90017EF3C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		407E787D2A8DF8400017EF3C /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
-		407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
-		40C76A342A93888A0073B464 /* Paintscape-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Paintscape-Bridging-Header.h"; sourceTree = "<group>"; };
-		40C76A372A94AAEF0073B464 /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
-		40C76A392A94C46B0073B464 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		400310182A9C73670038E61B /* Paintscape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paintscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4003101B2A9C73670038E61B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4003101D2A9C73670038E61B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		400310242A9C736A0038E61B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		400310292A9C736A0038E61B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4003102E2A9C736B0038E61B /* PaintscapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		400310322A9C736B0038E61B /* PaintscapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeTests.swift; sourceTree = "<group>"; };
+		400310382A9C736B0038E61B /* PaintscapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITests.swift; sourceTree = "<group>"; };
+		4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		40D0502D2A9F0E9400D0566C /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		40D050312A9F0EA100D0566C /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagnifyingGlassView.swift; sourceTree = "<group>"; };
+		40D050372A9F0EAF00D0566C /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		40D0503B2A9F0F7700D0566C /* Pixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
+		40D0503C2A9F0F7700D0566C /* Tip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
+		40D0503D2A9F0F7700D0566C /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		40D0503E2A9F0F7700D0566C /* RGBA32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBA32.swift; sourceTree = "<group>"; };
+		40D0503F2A9F0F7700D0566C /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
+		40D050452A9F0F8A00D0566C /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		40D050462A9F0F8A00D0566C /* CurveHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveHelper.swift; sourceTree = "<group>"; };
+		40D050472A9F0F8A00D0566C /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		40D050482A9F0F8B00D0566C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		40D050492A9F0F8B00D0566C /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		40D050552A9F3D9900D0566C /* ContainerStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		407E78342A8C83270017EF3C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				400310062A9B2AD70038E61B /* MagnifyingGlass in Frameworks */,
-				405A95D22A9090DF00DA5A8E /* Sliders in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		407E78452A8C832A0017EF3C /* Frameworks */ = {
+		400310152A9C73670038E61B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		407E784F2A8C832A0017EF3C /* Frameworks */ = {
+		4003102B2A9C736B0038E61B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		400310352A9C736B0038E61B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,193 +106,165 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4077D5F52A92052C006D86EC /* Extensions */ = {
+		4003100F2A9C73670038E61B = {
 			isa = PBXGroup;
 			children = (
-				4077D6042A934864006D86EC /* CurveHelper.swift */,
-				4077D6072A935F79006D86EC /* UIBezierPathExtension.swift */,
-				407E78692A8C94360017EF3C /* UIViewExtension.swift */,
-				407E786B2A8C954F0017EF3C /* UIViewControllerExtension.swift */,
-				407E787F2A8DF89F0017EF3C /* UIImageViewExtension.swift */,
-				405A95CE2A9089AC00DA5A8E /* ColorExtension.swift */,
-				4077D60A2A93612F006D86EC /* CGPointExtension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		4077D5F72A921829006D86EC /* Struct */ = {
-			isa = PBXGroup;
-			children = (
-				405A95C92A902F5000DA5A8E /* RGBA32.swift */,
-				405A95D32A91830500DA5A8E /* History.swift */,
-				405A95CB2A90319700DA5A8E /* Tip.swift */,
-				405A95C72A902E5900DA5A8E /* Stroke.swift */,
-				4077D5FB2A921905006D86EC /* Pixel.swift */,
-			);
-			path = Struct;
-			sourceTree = "<group>";
-		};
-		4077D5FA2A9218C4006D86EC /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				407E78732A8DB30E0017EF3C /* DrawViewOld.swift */,
-				407E78752A8DB3A90017EF3C /* ViewController.swift */,
-			);
-			path = Old;
-			sourceTree = "<group>";
-		};
-		407E782E2A8C83270017EF3C = {
-			isa = PBXGroup;
-			children = (
-				407E78392A8C83270017EF3C /* Paintscape */,
-				407E784B2A8C832A0017EF3C /* PaintscapeTests */,
-				407E78552A8C832A0017EF3C /* PaintscapeUITests */,
-				407E78382A8C83270017EF3C /* Products */,
+				4003101A2A9C73670038E61B /* Paintscape */,
+				400310312A9C736B0038E61B /* PaintscapeTests */,
+				4003103B2A9C736B0038E61B /* PaintscapeUITests */,
+				400310192A9C73670038E61B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		407E78382A8C83270017EF3C /* Products */ = {
+		400310192A9C73670038E61B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				407E78372A8C83270017EF3C /* Paintscape.app */,
-				407E78482A8C832A0017EF3C /* PaintscapeTests.xctest */,
-				407E78522A8C832A0017EF3C /* PaintscapeUITests.xctest */,
+				400310182A9C73670038E61B /* Paintscape.app */,
+				4003102E2A9C736B0038E61B /* PaintscapeTests.xctest */,
+				400310382A9C736B0038E61B /* PaintscapeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		407E78392A8C83270017EF3C /* Paintscape */ = {
+		4003101A2A9C73670038E61B /* Paintscape */ = {
 			isa = PBXGroup;
 			children = (
-				407E787D2A8DF8400017EF3C /* CanvasView.swift */,
-				405A95C12A8F317D00DA5A8E /* CanvasViewController.swift */,
-				405A95C32A8F3C1B00DA5A8E /* CanvasViewControllerR.swift */,
-				407E783C2A8C83270017EF3C /* AppView.swift */,
-				407E783A2A8C83270017EF3C /* PaintscapeApp.swift */,
-				40C76A392A94C46B0073B464 /* MenuView.swift */,
-				4077D5F72A921829006D86EC /* Struct */,
-				4077D5F52A92052C006D86EC /* Extensions */,
-				407E783E2A8C832A0017EF3C /* Assets.xcassets */,
-				407E78402A8C832A0017EF3C /* Paintscape.entitlements */,
-				407E78412A8C832A0017EF3C /* Preview Content */,
-				4077D5FA2A9218C4006D86EC /* Old */,
-				40C76A342A93888A0073B464 /* Paintscape-Bridging-Header.h */,
-				40C76A372A94AAEF0073B464 /* Playground.swift */,
-				400310072A9B2CFC0038E61B /* MagnifyingGlassView.swift */,
+				4003101B2A9C73670038E61B /* AppDelegate.swift */,
+				4003101D2A9C73670038E61B /* SceneDelegate.swift */,
+				40D050312A9F0EA100D0566C /* AppViewController.swift */,
+				40D0502D2A9F0E9400D0566C /* CanvasView.swift */,
+				40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */,
+				40D050372A9F0EAF00D0566C /* MenuView.swift */,
+				40D050552A9F3D9900D0566C /* ContainerStackView.swift */,
+				40D050542A9F144000D0566C /* Struct */,
+				40D050532A9F142900D0566C /* Extensions */,
+				400310242A9C736A0038E61B /* Assets.xcassets */,
+				400310292A9C736A0038E61B /* Info.plist */,
 			);
 			path = Paintscape;
 			sourceTree = "<group>";
 		};
-		407E78412A8C832A0017EF3C /* Preview Content */ = {
+		400310312A9C736B0038E61B /* PaintscapeTests */ = {
 			isa = PBXGroup;
 			children = (
-				407E78422A8C832A0017EF3C /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		407E784B2A8C832A0017EF3C /* PaintscapeTests */ = {
-			isa = PBXGroup;
-			children = (
-				407E784C2A8C832A0017EF3C /* PaintscapeTests.swift */,
+				400310322A9C736B0038E61B /* PaintscapeTests.swift */,
 			);
 			path = PaintscapeTests;
 			sourceTree = "<group>";
 		};
-		407E78552A8C832A0017EF3C /* PaintscapeUITests */ = {
+		4003103B2A9C736B0038E61B /* PaintscapeUITests */ = {
 			isa = PBXGroup;
 			children = (
-				407E78562A8C832A0017EF3C /* PaintscapeUITests.swift */,
-				407E78582A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift */,
+				4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */,
+				4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */,
 			);
 			path = PaintscapeUITests;
+			sourceTree = "<group>";
+		};
+		40D050532A9F142900D0566C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				40D050482A9F0F8B00D0566C /* UIColorExtension.swift */,
+				40D050462A9F0F8A00D0566C /* CurveHelper.swift */,
+				40D050472A9F0F8A00D0566C /* UIImageViewExtension.swift */,
+				40D050452A9F0F8A00D0566C /* UIViewControllerExtension.swift */,
+				40D050492A9F0F8B00D0566C /* UIViewExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		40D050542A9F144000D0566C /* Struct */ = {
+			isa = PBXGroup;
+			children = (
+				40D0503B2A9F0F7700D0566C /* Pixel.swift */,
+				40D0503D2A9F0F7700D0566C /* History.swift */,
+				40D0503F2A9F0F7700D0566C /* Stroke.swift */,
+				40D0503E2A9F0F7700D0566C /* RGBA32.swift */,
+				40D0503C2A9F0F7700D0566C /* Tip.swift */,
+			);
+			path = Struct;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		407E78362A8C83270017EF3C /* Paintscape */ = {
+		400310172A9C73670038E61B /* Paintscape */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 407E785C2A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "Paintscape" */;
+			buildConfigurationList = 400310422A9C736B0038E61B /* Build configuration list for PBXNativeTarget "Paintscape" */;
 			buildPhases = (
-				407E78332A8C83270017EF3C /* Sources */,
-				407E78342A8C83270017EF3C /* Frameworks */,
-				407E78352A8C83270017EF3C /* Resources */,
+				400310142A9C73670038E61B /* Sources */,
+				400310152A9C73670038E61B /* Frameworks */,
+				400310162A9C73670038E61B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Paintscape;
-			packageProductDependencies = (
-				405A95D12A9090DF00DA5A8E /* Sliders */,
-				400310052A9B2AD70038E61B /* MagnifyingGlass */,
-			);
-			productName = Paintscape;
-			productReference = 407E78372A8C83270017EF3C /* Paintscape.app */;
+			productName = idk;
+			productReference = 400310182A9C73670038E61B /* Paintscape.app */;
 			productType = "com.apple.product-type.application";
 		};
-		407E78472A8C832A0017EF3C /* PaintscapeTests */ = {
+		4003102D2A9C736B0038E61B /* PaintscapeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 407E785F2A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "PaintscapeTests" */;
+			buildConfigurationList = 400310452A9C736B0038E61B /* Build configuration list for PBXNativeTarget "PaintscapeTests" */;
 			buildPhases = (
-				407E78442A8C832A0017EF3C /* Sources */,
-				407E78452A8C832A0017EF3C /* Frameworks */,
-				407E78462A8C832A0017EF3C /* Resources */,
+				4003102A2A9C736B0038E61B /* Sources */,
+				4003102B2A9C736B0038E61B /* Frameworks */,
+				4003102C2A9C736B0038E61B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				407E784A2A8C832A0017EF3C /* PBXTargetDependency */,
+				400310302A9C736B0038E61B /* PBXTargetDependency */,
 			);
 			name = PaintscapeTests;
-			productName = PaintscapeTests;
-			productReference = 407E78482A8C832A0017EF3C /* PaintscapeTests.xctest */;
+			productName = idkTests;
+			productReference = 4003102E2A9C736B0038E61B /* PaintscapeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		407E78512A8C832A0017EF3C /* PaintscapeUITests */ = {
+		400310372A9C736B0038E61B /* PaintscapeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 407E78622A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "PaintscapeUITests" */;
+			buildConfigurationList = 400310482A9C736B0038E61B /* Build configuration list for PBXNativeTarget "PaintscapeUITests" */;
 			buildPhases = (
-				407E784E2A8C832A0017EF3C /* Sources */,
-				407E784F2A8C832A0017EF3C /* Frameworks */,
-				407E78502A8C832A0017EF3C /* Resources */,
+				400310342A9C736B0038E61B /* Sources */,
+				400310352A9C736B0038E61B /* Frameworks */,
+				400310362A9C736B0038E61B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				407E78542A8C832A0017EF3C /* PBXTargetDependency */,
+				4003103A2A9C736B0038E61B /* PBXTargetDependency */,
 			);
 			name = PaintscapeUITests;
-			productName = PaintscapeUITests;
-			productReference = 407E78522A8C832A0017EF3C /* PaintscapeUITests.xctest */;
+			productName = idkUITests;
+			productReference = 400310382A9C736B0038E61B /* PaintscapeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		407E782F2A8C83270017EF3C /* Project object */ = {
+		400310102A9C73670038E61B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
-					407E78362A8C83270017EF3C = {
+					400310172A9C73670038E61B = {
 						CreatedOnToolsVersion = 14.0.1;
-						LastSwiftMigration = 1400;
 					};
-					407E78472A8C832A0017EF3C = {
+					4003102D2A9C736B0038E61B = {
 						CreatedOnToolsVersion = 14.0.1;
-						TestTargetID = 407E78362A8C83270017EF3C;
+						TestTargetID = 400310172A9C73670038E61B;
 					};
-					407E78512A8C832A0017EF3C = {
+					400310372A9C736B0038E61B = {
 						CreatedOnToolsVersion = 14.0.1;
-						TestTargetID = 407E78362A8C83270017EF3C;
+						TestTargetID = 400310172A9C73670038E61B;
 					};
 				};
 			};
-			buildConfigurationList = 407E78322A8C83270017EF3C /* Build configuration list for PBXProject "Paintscape" */;
+			buildConfigurationList = 400310132A9C73670038E61B /* Build configuration list for PBXProject "Paintscape" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -318,40 +272,35 @@
 				en,
 				Base,
 			);
-			mainGroup = 407E782E2A8C83270017EF3C;
-			packageReferences = (
-				405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
-				400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */,
-			);
-			productRefGroup = 407E78382A8C83270017EF3C /* Products */;
+			mainGroup = 4003100F2A9C73670038E61B;
+			productRefGroup = 400310192A9C73670038E61B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				407E78362A8C83270017EF3C /* Paintscape */,
-				407E78472A8C832A0017EF3C /* PaintscapeTests */,
-				407E78512A8C832A0017EF3C /* PaintscapeUITests */,
+				400310172A9C73670038E61B /* Paintscape */,
+				4003102D2A9C736B0038E61B /* PaintscapeTests */,
+				400310372A9C736B0038E61B /* PaintscapeUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		407E78352A8C83270017EF3C /* Resources */ = {
+		400310162A9C73670038E61B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				407E78432A8C832A0017EF3C /* Preview Assets.xcassets in Resources */,
-				407E783F2A8C832A0017EF3C /* Assets.xcassets in Resources */,
+				400310252A9C736A0038E61B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		407E78462A8C832A0017EF3C /* Resources */ = {
+		4003102C2A9C736B0038E61B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		407E78502A8C832A0017EF3C /* Resources */ = {
+		400310362A9C736B0038E61B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -361,76 +310,70 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		407E78332A8C83270017EF3C /* Sources */ = {
+		400310142A9C73670038E61B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				407E786A2A8C94360017EF3C /* UIViewExtension.swift in Sources */,
-				407E78742A8DB30E0017EF3C /* DrawViewOld.swift in Sources */,
-				4077D60B2A93612F006D86EC /* CGPointExtension.swift in Sources */,
-				407E78772A8DB3A90017EF3C /* ViewController.swift in Sources */,
-				405A95CF2A9089AC00DA5A8E /* ColorExtension.swift in Sources */,
-				407E786C2A8C954F0017EF3C /* UIViewControllerExtension.swift in Sources */,
-				40C76A3A2A94C46B0073B464 /* MenuView.swift in Sources */,
-				405A95C22A8F317D00DA5A8E /* CanvasViewController.swift in Sources */,
-				407E783D2A8C83270017EF3C /* AppView.swift in Sources */,
-				407E783B2A8C83270017EF3C /* PaintscapeApp.swift in Sources */,
-				400310082A9B2CFC0038E61B /* MagnifyingGlassView.swift in Sources */,
-				4077D5FC2A921905006D86EC /* Pixel.swift in Sources */,
-				40C76A382A94AAEF0073B464 /* Playground.swift in Sources */,
-				4077D6082A935F79006D86EC /* UIBezierPathExtension.swift in Sources */,
-				407E787E2A8DF8400017EF3C /* CanvasView.swift in Sources */,
-				405A95C42A8F3C1B00DA5A8E /* CanvasViewControllerR.swift in Sources */,
-				405A95CA2A902F5000DA5A8E /* RGBA32.swift in Sources */,
-				405A95D42A91830500DA5A8E /* History.swift in Sources */,
-				407E78802A8DF89F0017EF3C /* UIImageViewExtension.swift in Sources */,
-				405A95CC2A90319700DA5A8E /* Tip.swift in Sources */,
-				405A95C82A902E5900DA5A8E /* Stroke.swift in Sources */,
-				4077D6052A934864006D86EC /* CurveHelper.swift in Sources */,
+				40D050442A9F0F7700D0566C /* Stroke.swift in Sources */,
+				40D050362A9F0EAB00D0566C /* MagnifyingGlassView.swift in Sources */,
+				40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */,
+				40D050422A9F0F7700D0566C /* History.swift in Sources */,
+				40D050382A9F0EAF00D0566C /* MenuView.swift in Sources */,
+				40D0504F2A9F0F8B00D0566C /* UIViewExtension.swift in Sources */,
+				40D0504E2A9F0F8B00D0566C /* UIColorExtension.swift in Sources */,
+				40D050402A9F0F7700D0566C /* Pixel.swift in Sources */,
+				4003101C2A9C73670038E61B /* AppDelegate.swift in Sources */,
+				40D0504C2A9F0F8B00D0566C /* CurveHelper.swift in Sources */,
+				40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */,
+				40D050432A9F0F7700D0566C /* RGBA32.swift in Sources */,
+				40D050562A9F3D9900D0566C /* ContainerStackView.swift in Sources */,
+				40D050412A9F0F7700D0566C /* Tip.swift in Sources */,
+				40D0504B2A9F0F8B00D0566C /* UIViewControllerExtension.swift in Sources */,
+				40D0504D2A9F0F8B00D0566C /* UIImageViewExtension.swift in Sources */,
+				4003101E2A9C73670038E61B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		407E78442A8C832A0017EF3C /* Sources */ = {
+		4003102A2A9C736B0038E61B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4077D5F92A9218A2006D86EC /* RGBA32.swift in Sources */,
-				4077D6062A934864006D86EC /* CurveHelper.swift in Sources */,
-				4077D5F82A92185A006D86EC /* History.swift in Sources */,
-				4077D5FD2A921905006D86EC /* Pixel.swift in Sources */,
-				407E784D2A8C832A0017EF3C /* PaintscapeTests.swift in Sources */,
-				405A95CD2A90457500DA5A8E /* Tip.swift in Sources */,
-				4077D6092A935F79006D86EC /* UIBezierPathExtension.swift in Sources */,
-				4077D60C2A93612F006D86EC /* CGPointExtension.swift in Sources */,
+				40D050592A9F3E0400D0566C /* Pixel.swift in Sources */,
+				40D0505C2A9F3E2900D0566C /* CurveHelper.swift in Sources */,
+				40D050582A9F3DFF00D0566C /* History.swift in Sources */,
+				40D0505B2A9F3E0900D0566C /* RGBA32.swift in Sources */,
+				40D0505A2A9F3E0600D0566C /* Stroke.swift in Sources */,
+				400310332A9C736B0038E61B /* PaintscapeTests.swift in Sources */,
+				40D050572A9F3DF700D0566C /* Tip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		407E784E2A8C832A0017EF3C /* Sources */ = {
+		400310342A9C736B0038E61B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				407E78592A8C832A0017EF3C /* PaintscapeUITestsLaunchTests.swift in Sources */,
-				407E78572A8C832A0017EF3C /* PaintscapeUITests.swift in Sources */,
+				4003103D2A9C736B0038E61B /* PaintscapeUITests.swift in Sources */,
+				4003103F2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		407E784A2A8C832A0017EF3C /* PBXTargetDependency */ = {
+		400310302A9C736B0038E61B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 407E78362A8C83270017EF3C /* Paintscape */;
-			targetProxy = 407E78492A8C832A0017EF3C /* PBXContainerItemProxy */;
+			target = 400310172A9C73670038E61B /* Paintscape */;
+			targetProxy = 4003102F2A9C736B0038E61B /* PBXContainerItemProxy */;
 		};
-		407E78542A8C832A0017EF3C /* PBXTargetDependency */ = {
+		4003103A2A9C736B0038E61B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 407E78362A8C83270017EF3C /* Paintscape */;
-			targetProxy = 407E78532A8C832A0017EF3C /* PBXContainerItemProxy */;
+			target = 400310172A9C73670038E61B /* Paintscape */;
+			targetProxy = 400310392A9C736B0038E61B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		407E785A2A8C832A0017EF3C /* Debug */ = {
+		400310402A9C736B0038E61B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -480,16 +423,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		407E785B2A8C832A0017EF3C /* Release */ = {
+		400310412A9C736B0038E61B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -533,100 +477,73 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		407E785D2A8C832A0017EF3C /* Debug */ = {
+		400310432A9C736B0038E61B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Paintscape/Paintscape.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Paintscape/Preview Content\"";
 				DEVELOPMENT_TEAM = AV5T75VG6K;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_FILE = Paintscape/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.Paintscape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Paintscape/Paintscape-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		407E785E2A8C832A0017EF3C /* Release */ = {
+		400310442A9C736B0038E61B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Paintscape/Paintscape.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Paintscape/Preview Content\"";
 				DEVELOPMENT_TEAM = AV5T75VG6K;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_FILE = Paintscape/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.Paintscape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Paintscape/Paintscape-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		407E78602A8C832A0017EF3C /* Debug */ = {
+		400310462A9C736B0038E61B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -635,14 +552,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -650,7 +563,7 @@
 			};
 			name = Debug;
 		};
-		407E78612A8C832A0017EF3C /* Release */ = {
+		400310472A9C736B0038E61B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -659,14 +572,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -674,7 +583,7 @@
 			};
 			name = Release;
 		};
-		407E78632A8C832A0017EF3C /* Debug */ = {
+		400310492A9C736B0038E61B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -682,15 +591,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -698,7 +601,7 @@
 			};
 			name = Debug;
 		};
-		407E78642A8C832A0017EF3C /* Release */ = {
+		4003104A2A9C736B0038E61B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -706,15 +609,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV5T75VG6K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = acherian.PaintscapeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -725,75 +622,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		407E78322A8C83270017EF3C /* Build configuration list for PBXProject "Paintscape" */ = {
+		400310132A9C73670038E61B /* Build configuration list for PBXProject "Paintscape" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407E785A2A8C832A0017EF3C /* Debug */,
-				407E785B2A8C832A0017EF3C /* Release */,
+				400310402A9C736B0038E61B /* Debug */,
+				400310412A9C736B0038E61B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		407E785C2A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "Paintscape" */ = {
+		400310422A9C736B0038E61B /* Build configuration list for PBXNativeTarget "Paintscape" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407E785D2A8C832A0017EF3C /* Debug */,
-				407E785E2A8C832A0017EF3C /* Release */,
+				400310432A9C736B0038E61B /* Debug */,
+				400310442A9C736B0038E61B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		407E785F2A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "PaintscapeTests" */ = {
+		400310452A9C736B0038E61B /* Build configuration list for PBXNativeTarget "PaintscapeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407E78602A8C832A0017EF3C /* Debug */,
-				407E78612A8C832A0017EF3C /* Release */,
+				400310462A9C736B0038E61B /* Debug */,
+				400310472A9C736B0038E61B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		407E78622A8C832A0017EF3C /* Build configuration list for PBXNativeTarget "PaintscapeUITests" */ = {
+		400310482A9C736B0038E61B /* Build configuration list for PBXNativeTarget "PaintscapeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407E78632A8C832A0017EF3C /* Debug */,
-				407E78642A8C832A0017EF3C /* Release */,
+				400310492A9C736B0038E61B /* Debug */,
+				4003104A2A9C736B0038E61B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/niczyja/MagnifyingGlass-Swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/spacenation/swiftui-sliders";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		400310052A9B2AD70038E61B /* MagnifyingGlass */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 400310042A9B2AD70038E61B /* XCRemoteSwiftPackageReference "MagnifyingGlass-Swift" */;
-			productName = MagnifyingGlass;
-		};
-		405A95D12A9090DF00DA5A8E /* Sliders */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 405A95D02A9090DE00DA5A8E /* XCRemoteSwiftPackageReference "swiftui-sliders" */;
-			productName = Sliders;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 407E782F2A8C83270017EF3C /* Project object */;
+	rootObject = 400310102A9C73670038E61B /* Project object */;
 }

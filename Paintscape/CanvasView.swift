@@ -7,7 +7,6 @@
 
 import UIKit
 import SwiftUI
-import MagnifyingGlass
 
 protocol CanvasViewDelegate: AnyObject {
     func didColorChange(_ color: RGBA32)
@@ -17,7 +16,6 @@ protocol CanvasViewDelegate: AnyObject {
 class CanvasView: UIView {
     weak var delegate: CanvasViewDelegate?
     var movementEnabled = false
-    var eyedropper = false
     var stroke = Stroke()
     let imageView = UIImageView()
     private lazy var path = UIBezierPath()
@@ -28,9 +26,9 @@ class CanvasView: UIView {
     var history = History(maxItems: 50)
     var magnifyingGlass = MagnifyingGlassView()
 
-    override init(frame: CGRect) {
+    override init(frame: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: 200))) {
         super.init(frame: frame)
-        
+        if frame.size.height == 0 || frame.size.width == 0 { return }
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
         contentMode = UIView.ContentMode.scaleAspectFit
         imageView.clipsToBounds = true
@@ -74,6 +72,9 @@ class CanvasView: UIView {
     }
     
     func undo() {
+        history.add(action: Array(action.values))
+        action = [Pixel: Pixel]()
+        
         let width = Int(imageView.image!.size.width * imageView.image!.scale)
         let height = Int(imageView.image!.size.height * imageView.image!.scale)
         let pixels = history.undo(image: imageView.image!, width: width, height: height)
@@ -179,7 +180,7 @@ class CanvasView: UIView {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || eyedropper) { return }
+        if(movementEnabled || stroke.tool == "eyedropper") { return }
         
         super.touchesBegan(touches, with: event)
         guard let touch = touches.first else { return }
@@ -190,7 +191,7 @@ class CanvasView: UIView {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || eyedropper) { return }
+        if(movementEnabled || stroke.tool == "eyedropper") { return }
         
         super.touchesMoved(touches, with: event)
         touches.forEach { touch in
@@ -224,7 +225,7 @@ class CanvasView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || eyedropper) { return }
+        if(movementEnabled || stroke.tool == "eyedropper") { return }
         
         history.add(action: Array(action.values))
         action = [Pixel: Pixel]()

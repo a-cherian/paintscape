@@ -90,28 +90,4 @@ final class PaintscapeTests: XCTestCase {
         XCTAssertEqual(hist.history, expectedHistory)
         XCTAssertEqual(hist.current, 2)
     }
-    
-    func testQuadBezierSeg() {
-        let start = Pixel(x: 9, y: 8, color: RGBA32())
-        let control = Pixel(x: 11, y: 9, color: RGBA32())
-        let end = Pixel(x: 9, y: 9, color: RGBA32())
-        let pixels = plotQuadBezierSeg(s: start, c1: control, e: end)
-        print(pixels)
-    }
-    
-    func testQuadBezierSeg2() {
-        let start = Pixel(x: 11 + 300, y: 8 + 300, color: RGBA32())
-        let control = Pixel(x: 9 + 300, y: 9 + 300, color: RGBA32())
-        let end = Pixel(x: 11 + 300, y: 9 + 300, color: RGBA32())
-        let pixels = plotQuadBezierSeg(s: start, c1: control, e: end)
-        print(pixels)
-    }
-    
-    func testQuadBezierSeg3() {
-        let start = Pixel(x: 10, y: 8, color: RGBA32())
-        let control = Pixel(x: 9, y: 7, color: RGBA32())
-        let end = Pixel(x: 10, y: 7, color: RGBA32())
-        let pixels = plotQuadBezierSeg(s: start, c1: control, e: end)
-        print(pixels)
-    }
 }
