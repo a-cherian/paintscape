@@ -13,7 +13,7 @@ struct Stroke {
     
     init() {
         self.tool = ""
-        self.tip = Tip(type: .square, r: 1)
+        self.tip = Tip(type: .square, r: 2)
         self.primary = RGBA32(r: 0, g: 0, b: 0, a: 255)
         self.secondary = RGBA32(r: 255, g: 255, b: 255, a: 255)
     }
