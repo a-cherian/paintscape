@@ -72,9 +72,6 @@ class CanvasView: UIView {
     }
     
     func undo() {
-        history.add(action: Array(action.values))
-        action = [Pixel: Pixel]()
-        
         let width = Int(imageView.image!.size.width * imageView.image!.scale)
         let height = Int(imageView.image!.size.height * imageView.image!.scale)
         let pixels = history.undo(image: imageView.image!, width: width, height: height)
