@@ -203,6 +203,20 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return slider
     }()
     
+    lazy var colorPicker: ContainerStackView = {
+        let stack = ContainerStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
+        stack.addArrangedSubview(primaryPicker)
+        stack.addArrangedSubview(secondaryPicker)
+        stack.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        stack.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        stack.backgroundColor = .systemMint
+        return stack
+    }()
+    
     lazy var rightTopStack: ContainerStackView = {
         let stack = ContainerStackView()
         stack.axis = .vertical
@@ -257,8 +271,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 20
-        stack.addArrangedSubview(primaryPicker)
-        stack.addArrangedSubview(secondaryPicker)
+        stack.addArrangedSubview(colorPicker)
         stack.addArrangedSubview(swapColorButton)
         stack.addArrangedSubview(tipButton)
         stack.addArrangedSubview(replaceButton)
