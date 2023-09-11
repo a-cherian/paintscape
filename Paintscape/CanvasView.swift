@@ -23,6 +23,7 @@ class CanvasView: UIView {
     var touchPoints = [Pixel]()
     var centers = [Pixel]()
     var action = [Pixel: Pixel]()
+    var touchPointsD = [Pixel: Pixel]()
     var history = History(maxItems: 50)
     var magnifyingGlass = MagnifyingGlassView()
 
@@ -88,7 +89,9 @@ class CanvasView: UIView {
     }
     
     func eyedropper(location: CGPoint) {
-        delegate?.didColorChange(getPixel(in: imageView.image!, pixel: Pixel(point: location, view: imageView, color: RGBA32())))
+        guard let pixel = Pixel(point: location, view: imageView, color: RGBA32()) else { return }
+        
+        delegate?.didColorChange(getPixel(in: imageView.image!, pixel: pixel))
     }
     
     // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
@@ -134,7 +137,6 @@ class CanvasView: UIView {
         let outputCGImage = context.makeImage()!
         let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
         
-//        ii
         centers = [Pixel]()
         
         return outputImage
@@ -182,7 +184,9 @@ class CanvasView: UIView {
         super.touchesBegan(touches, with: event)
         guard let touch = touches.first else { return }
         let point = touch.location(in: self)
-        touchPoints.append(Pixel(point: point, view: imageView, color: stroke.primary))
+        if let pixel = Pixel(point: point, view: imageView, color: stroke.primary) {
+            touchPoints.append(pixel)
+        }
         imageView.image = changePixels(in: imageView.image!, pixels: touchPoints, stroke: stroke)
         setNeedsDisplay()
     }
@@ -192,29 +196,33 @@ class CanvasView: UIView {
         
         super.touchesMoved(touches, with: event)
         touches.forEach { touch in
-            touchPoints.append(Pixel(point: touch.location(in: self), view: imageView, color: stroke.primary))
-
             if let coalescedTouches = event?.coalescedTouches(for: touch) {
-                touchPoints += coalescedTouches.map { Pixel(point: $0.location(in: self), view: imageView, color: stroke.primary) }
+                coalescedTouches.forEach { coalescedTouch in
+                    if let pixel = Pixel(point: coalescedTouch.location(in: self), view: imageView, color: stroke.primary) {
+                        touchPoints.append(pixel)
+                    }
+                }
             } else {
-                touchPoints.append(Pixel(point: touch.location(in: self), view: imageView, color: stroke.primary))
+                if let pixel = Pixel(point: touch.location(in: self), view: imageView, color: stroke.primary) {
+                    touchPoints.append(pixel)
+                }
             }
         }
         
         if touchPoints.count > 2 {
-            for i in stride(from: 0, to: touchPoints.count - 3, by: 1) {
+            for i in stride(from: 0, to: touchPoints.count - 2, by: 2) {
                 let s = touchPoints[i]
                 let c = touchPoints[i + 1]
                 let e = touchPoints[i + 2]
-                let curve = plotQuadBezierSeg(x0: s.x, y0: s.y, x1: c.x, y1: c.y, x2: e.x, y2: e.y)
+                let curve = plotQuadBezier(x0: s.x, y0: s.y, x1: c.x, y1: c.y, x2: e.x, y2: e.y)
                 centers.insert(contentsOf: curve, at: 0)
             }
-            touchPoints = touchPoints.suffix(3)
-            let s = touchPoints[0]
-            let c = touchPoints[1]
-            let e = touchPoints[2]
-            let curve = plotQuadBezierSeg(x0: s.x, y0: s.y, x1: c.x, y1: c.y, x2: e.x, y2: e.y)
-            centers.insert(contentsOf: curve, at: 0)
+            if touchPoints.count % 2 == 0 {
+                touchPoints = touchPoints.suffix(2)
+            }
+            else {
+                touchPoints = touchPoints.suffix(1)
+            }
         }
         
         imageView.image = changePixels(in: imageView.image!, pixels: centers, stroke: stroke)
