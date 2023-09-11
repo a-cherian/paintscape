@@ -8,7 +8,8 @@
 import UIKit
 import SwiftUI
 
-class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, CanvasViewDelegate {
+class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, CanvasViewDelegate, MenuViewControllerDelegate {
+    
     
     let moveIcon = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right") ?? UIImage()
     let swapColorIcon = UIImage(systemName: "arrow.triangle.2.circlepath") ?? UIImage()
@@ -135,7 +136,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         picker.addTarget(self, action: #selector(didTapSecondaryPicker), for: .touchUpInside)
         
-        picker.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        picker.heightAnchor.constraint(equalToConstant: 25).isActive = true
         picker.widthAnchor.constraint(equalToConstant: 50).isActive = true
         return picker
     }()
@@ -148,7 +149,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         picker.addTarget(self, action: #selector(didTapPrimaryPicker), for: .touchUpInside)
         
-        picker.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        picker.heightAnchor.constraint(equalToConstant: 25).isActive = true
         picker.widthAnchor.constraint(equalToConstant: 50).isActive = true
         return picker
     }()
@@ -336,7 +337,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createCanvas()
+        createCanvas(height: canvasHeight, width: canvasWidth)
         view.addSubview(rightStack)
         view.addSubview(leftStack)
         leftStack.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -381,8 +382,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary)
     }
     
-    func createCanvas() {
+    func createCanvas(height: CGFloat, width: CGFloat) {
         canvasView.removeFromSuperview()
+        canvasHeight = height
+        canvasWidth = width
         canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: canvasWidth, height: canvasHeight))
         canvasView.delegate = self
         view.backgroundColor = UIColor.black
@@ -500,7 +503,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     @objc private func didTapMenuButton() {
-        // TO DO: implement menu
+        let menuViewController = MenuViewController()
+        menuViewController.modalPresentationStyle = .formSheet
+        menuViewController.delegate = self
+        present(menuViewController, animated: true, completion: nil)
     }
     
     @objc private func didTapPrimaryPicker() {
@@ -538,6 +544,48 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     func didColorChange(_ color: RGBA32) {
         primary = UIColor(red: CGFloat(color.redComponent) / 255, green: CGFloat(color.greenComponent) / 255, blue: CGFloat(color.blueComponent) / 255, alpha: 255)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    func didExportOccur() {
+        guard let imageToSave = canvasView.imageView.image else { return }
+        guard let pngData =  imageToSave.pngData() else { return }
+        guard let imgPng = UIImage(data: pngData) else { return }
+        
+        UIImageWriteToSavedPhotosAlbum(imgPng, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    func didCreateOccur(height: Int, width: Int) {
+        createCanvas(height: CGFloat(height), width: CGFloat(width))
+    }
+    
+    func didLoadOccur() {
+        
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+
+        if let error = error {
+            let alert = UIAlertController(title: "Unable to export image", message: "Make sure Paintscape has photo gallery access", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            dismiss(animated: true){ () -> Void in
+                self.present(alert, animated: true, completion: nil)
+            }
+            print(error.localizedDescription)
+
+        } else {
+            let alert = UIAlertController(title: "Export Image", message: "Image successfully saved to photo gallery!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            dismiss(animated: true){ () -> Void in
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }
 
