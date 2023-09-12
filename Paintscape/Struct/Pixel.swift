@@ -23,9 +23,9 @@ struct Pixel: Equatable, Hashable {
         let yBounds = view.image!.scale * view.image!.size.width
         let xRatio = xBounds / view.frame.size.width
         let yRatio = yBounds / view.frame.size.height
-        self.x = Int(round(xRatio * point.x)) - 1
-        self.y = Int(round(yRatio * point.y)) - 1
-        if x < 0 || y < 0 || x > Int(xBounds) - 1 || y > Int(yBounds) - 1 { return nil }
+        self.x = Int((xRatio * point.x))
+        self.y = Int((yRatio * point.y))
+//        if x < 0 || y < 0 || x > Int(xBounds) - 1 || y > Int(yBounds) - 1 { return nil }
         self.color = color
     }
     

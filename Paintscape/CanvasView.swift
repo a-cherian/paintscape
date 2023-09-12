@@ -23,7 +23,6 @@ class CanvasView: UIView {
     var touchPoints = [Pixel]()
     var centers = [Pixel]()
     var action = [Pixel: Pixel]()
-    var touchPointsD = [Pixel: Pixel]()
     var history = History(maxItems: 50)
     var magnifyingGlass = MagnifyingGlassView()
 
@@ -46,7 +45,7 @@ class CanvasView: UIView {
         layoutIfNeeded()
         
         let size = CGSize(width: imageView.bounds.size.width, height: imageView.bounds.size.height)
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), true, 0);
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), true, 1);
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.setFillColor(UIColor.white.cgColor)
         UIRectFill(CGRectMake(0, 0, size.width, size.height));
