@@ -34,7 +34,7 @@ class MenuViewController: UIViewController {
     
     lazy var loadButton: UIButton = {
         let button = UIButton()
-        setStaticButtonStyle(button: button, title: "Load Canvas")
+        setStaticButtonStyle(button: button, title: "Load Image")
         button.addTarget(self, action: #selector(didTapLoadButton), for: .touchUpInside)
         return button
     }()
@@ -146,7 +146,6 @@ class MenuViewController: UIViewController {
     }
     
     @objc private func didTapLoadButton() {
-        
         delegate?.didLoadOccur()
     }
 }

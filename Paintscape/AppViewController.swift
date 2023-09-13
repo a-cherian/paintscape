@@ -27,13 +27,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let undoIcon = UIImage(systemName: "arrow.uturn.backward") ?? UIImage()
     let redoIcon = UIImage(systemName: "arrow.uturn.forward") ?? UIImage()
     let menuIcon = UIImage(systemName: "line.3.horizontal") ?? UIImage()
-    
     var toolIcon = UIImage(systemName: "paintbrush.pointed.fill") ?? UIImage()
+    
+    let accentColor = UIColor.orange
     
     var toolsExpanded = true {
         didSet {
-            if toolsExpanded { addToolsToStack() }
-            else { removeToolsFromStack() }
+            if toolsExpanded { addButtonsToStack(stack: toolsStack, buttons: toolButtons) }
+            else { removeButtonsFromStack(stack: toolsStack, buttons: toolButtons) }
         }
     }
     var movementEnabled = false {
@@ -57,7 +58,12 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             setStaticButtonStyle(button: fillButton, condition: tool == "fill", iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
             updateStroke()
             removeEyedropper()
+            rightTopStack.removeArrangedSubview(tipButton)
+            tipButton.removeFromSuperview()
             if tool == "eyedropper" { addEyedropper() }
+            if tool == "brush" || tool == "replace" {
+                rightTopStack.addArrangedSubview(tipButton)
+            }
         }
     }
     var tipSize: Int = 2 {
@@ -209,7 +215,23 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     lazy var swapColorButton: UIButton = {
         let button = UIButton()
-        setStaticButtonStyle(button: button, iconOn: swapColorIcon)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.layer.magnificationFilter = .nearest
+        
+        var config = UIButton.Configuration.filled()
+        config.image = swapColorIcon
+        config.imagePadding = 5
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = UIColor.black.withAlphaComponent(0.5)
+        button.configuration = config
+        
+        button.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        button.heightAnchor.constraint(equalTo: button.widthAnchor).isActive = true
+        button.layer.cornerRadius = 25 / 2.0
+        button.clipsToBounds = true
         
         button.addTarget(self, action: #selector(didTapSwapColorButton), for: .touchUpInside)
         
@@ -226,10 +248,11 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }()
     
     lazy var sizeSlider: UISlider = {
-        // TO DO: make slider vertical
         let slider = UISlider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
         slider.minimumValue = 1
         slider.maximumValue = 30
+        slider.tintColor = accentColor
         
         slider.addTarget(self, action: #selector(didSizeChange), for: UIControl.Event.valueChanged)
         
@@ -250,27 +273,38 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return stack
     }()
     
+    lazy var colorView: UIView = {
+        let cView = UIView()
+        cView.translatesAutoresizingMaskIntoConstraints = false
+        cView.addSubview(swapColorButton)
+        cView.addSubview(colorPicker)
+        cView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        cView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        colorPicker.trailingAnchor.constraint(equalTo: cView.trailingAnchor).isActive = true
+        swapColorButton.leadingAnchor.constraint(equalTo: cView.leadingAnchor).isActive = true
+        swapColorButton.centerYAnchor.constraint(equalTo: cView.centerYAnchor).isActive = true
+        return cView
+    }()
+    
     lazy var toolsStack: ContainerStackView = {
         let stack = ContainerStackView()
-        stack.axis = .horizontal
+        stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 20
         stack.addArrangedSubview(toolsButton)
-        stack.addArrangedSubview(brushButton)
-        stack.addArrangedSubview(eyedropperButton)
-        stack.addArrangedSubview(replaceButton)
-        stack.addArrangedSubview(fillButton)
+        addButtonsToStack(stack: stack, buttons: toolButtons)
         return stack
     }()
     
     lazy var rightTopStack: ContainerStackView = {
         let stack = ContainerStackView()
-        stack.axis = .vertical
+        stack.axis = .horizontal
         stack.alignment = .leading
         stack.distribution = .fillEqually
         stack.spacing = 20
         stack.addArrangedSubview(toolsStack)
+        stack.addArrangedSubview(tipButton)
         return stack
     }()
     
@@ -315,9 +349,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 20
-        stack.addArrangedSubview(colorPicker)
-        stack.addArrangedSubview(swapColorButton)
-        stack.addArrangedSubview(tipButton)
+        stack.addArrangedSubview(colorView)
         return stack
     }()
     
@@ -327,7 +359,6 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 20
-        stack.addArrangedSubview(sizeSlider)
         return stack
     }()
     
@@ -360,6 +391,21 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return stack
     }()
     
+    lazy var centerStack: ContainerStackView = {
+        let stack = ContainerStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        stack.spacing = 100
+//        stack.addArrangedSubview(sizeSlider)
+        stack.heightAnchor.constraint(equalToConstant: self.view.bounds.height).isActive = true
+        stack.widthAnchor.constraint(equalToConstant: self.view.bounds.width).isActive = true
+        return stack
+    }()
+    
+    var toolButtons: [UIButton] = []
+    
     
     
     
@@ -370,6 +416,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.init(nibName: nil, bundle: nil)
         self.canvasHeight = height
         self.canvasWidth = width
+        toolButtons = [brushButton, replaceButton, eyedropperButton, fillButton]
     }
     
     required init?(coder: NSCoder) {
@@ -380,8 +427,11 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.viewDidLoad()
         createCanvas(height: canvasHeight, width: canvasWidth)
         view.addSubview(rightStack)
+        view.addSubview(sizeSlider)
         view.addSubview(leftStack)
         leftStack.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        sizeSlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        sizeSlider.topAnchor.constraint(equalTo: view.topAnchor, constant: 45).isActive = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -407,20 +457,17 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         view.removeGestureRecognizer(dropperPan)
     }
     
-    private func removeToolsFromStack() {
-        let buttons = [brushButton, eyedropperButton, replaceButton, fillButton]
-        
+    private func removeButtonsFromStack(stack: UIStackView, buttons: [UIButton]) {
         buttons.forEach {button in
-            toolsStack.removeArrangedSubview(button)
+            stack.removeArrangedSubview(button)
             button.removeFromSuperview()
         }
     }
     
-    private func addToolsToStack() {
-        toolsStack.addArrangedSubview(brushButton)
-        toolsStack.addArrangedSubview(eyedropperButton)
-        toolsStack.addArrangedSubview(replaceButton)
-        toolsStack.addArrangedSubview(fillButton)
+    private func addButtonsToStack(stack: UIStackView, buttons: [UIButton]) {
+        buttons.forEach {button in
+            stack.addArrangedSubview(button)
+        }
     }
     
     func updateStroke() {
@@ -438,7 +485,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: canvasWidth, height: canvasHeight))
         canvasView.delegate = self
         view.backgroundColor = UIColor.black
-        view.addSubview(canvasView)
+        view.insertSubview(canvasView, at: 0)
         
         let initXScale = view.bounds.width / canvasWidth * 0.75
         let initYScale = view.bounds.height / canvasHeight * 0.75
@@ -455,6 +502,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     func setStaticButtonStyle(button: UIButton, condition: Bool = true, iconOn: UIImage, iconOff: UIImage? = nil, toggleBg: Bool = false) {
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.imageView?.contentMode = .scaleAspectFit
@@ -468,8 +516,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
         config.imagePadding = 15
         config.baseForegroundColor = .white
-        if toggleBg { config.baseBackgroundColor = condition ? UIColor.orange.withAlphaComponent(0.9) : UIColor.orange.withAlphaComponent(0.5) }
-        else { config.baseBackgroundColor = UIColor.orange.withAlphaComponent(0.5) }
+        if toggleBg { config.baseBackgroundColor = condition ? accentColor.withAlphaComponent(0.9) : accentColor.withAlphaComponent(0.5) }
+        else { config.baseBackgroundColor = accentColor.withAlphaComponent(0.5) }
         button.configuration = config
         
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -584,6 +632,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     @objc private func didSizeChange(_ sender: UISlider) {
         tipSize = Int(sender.value)
+        sender.value = Float(tipSize)
     }
     
     
