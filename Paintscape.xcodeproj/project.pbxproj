@@ -13,6 +13,7 @@
 		400310332A9C736B0038E61B /* PaintscapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400310322A9C736B0038E61B /* PaintscapeTests.swift */; };
 		4003103D2A9C736B0038E61B /* PaintscapeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */; };
 		4003103F2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */; };
+		409317EC2AB0461F0057DCA7 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409317EB2AB0461F0057DCA7 /* Stack.swift */; };
 		40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0502D2A9F0E9400D0566C /* CanvasView.swift */; };
 		40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050312A9F0EA100D0566C /* AppViewController.swift */; };
 		40D050362A9F0EAB00D0566C /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */; };
@@ -64,6 +65,7 @@
 		400310382A9C736B0038E61B /* PaintscapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITests.swift; sourceTree = "<group>"; };
 		4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		409317EB2AB0461F0057DCA7 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		40D0502D2A9F0E9400D0566C /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		40D050312A9F0EA100D0566C /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagnifyingGlassView.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				40D0503F2A9F0F7700D0566C /* Stroke.swift */,
 				40D0503E2A9F0F7700D0566C /* RGBA32.swift */,
 				40D0503C2A9F0F7700D0566C /* Tip.swift */,
+				409317EB2AB0461F0057DCA7 /* Stack.swift */,
 			);
 			path = Struct;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				40D050402A9F0F7700D0566C /* Pixel.swift in Sources */,
 				4003101C2A9C73670038E61B /* AppDelegate.swift in Sources */,
 				40D0504C2A9F0F8B00D0566C /* CurveHelper.swift in Sources */,
+				409317EC2AB0461F0057DCA7 /* Stack.swift in Sources */,
 				40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */,
 				40D050432A9F0F7700D0566C /* RGBA32.swift in Sources */,
 				40D050562A9F3D9900D0566C /* ContainerStackView.swift in Sources */,

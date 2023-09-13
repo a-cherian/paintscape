@@ -16,6 +16,7 @@ protocol MenuViewControllerDelegate: AnyObject {
 
 class MenuViewController: UIViewController {
     weak var delegate: MenuViewControllerDelegate?
+    let MAX_DIMENSION = 2048
     
     lazy var exportButton: UIButton = {
         let button = UIButton()
@@ -128,10 +129,12 @@ class MenuViewController: UIViewController {
         }
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { _ in
-            let height = alert.textFields?[0].text ?? "200"
-            let width = alert.textFields?[1].text ?? "200"
+            var height = alert.textFields?[0].text ?? "200"
+            var width = alert.textFields?[1].text ?? "200"
             print("Height value: \(height)")
             print("Width value: \(width)")
+            if Int(height) ?? 2048 > 2048 { height = String(self.MAX_DIMENSION) }
+            if Int(width) ?? 2048 > 2048 { width = String(self.MAX_DIMENSION) }
             self.delegate?.didCreateOccur(height: Int(height) ?? 200, width: Int(width) ?? 200)
         }
 

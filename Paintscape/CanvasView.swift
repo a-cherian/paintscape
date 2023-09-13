@@ -75,7 +75,7 @@ class CanvasView: UIView {
         let width = Int(imageView.image!.size.width * imageView.image!.scale)
         let height = Int(imageView.image!.size.height * imageView.image!.scale)
         let pixels = history.undo(image: imageView.image!, width: width, height: height)
-        imageView.image = changePixels(in: imageView.image!, pixels: pixels, stroke: Stroke(tool: "history"))
+        imageView.image = changePixels(pixels: pixels, stroke: Stroke(tool: "history"))
         setNeedsDisplay()
     }
     
@@ -83,7 +83,7 @@ class CanvasView: UIView {
         let width = Int(imageView.image!.size.width * imageView.image!.scale)
         let height = Int(imageView.image!.size.height * imageView.image!.scale)
         let pixels = history.redo(image: imageView.image!, width: width, height: height)
-        imageView.image = changePixels(in: imageView.image!, pixels: pixels, stroke: Stroke(tool: "history"))
+        imageView.image = changePixels(pixels: pixels, stroke: Stroke(tool: "history"))
         setNeedsDisplay()
     }
     
@@ -94,7 +94,8 @@ class CanvasView: UIView {
     }
     
     // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
-    func changePixels(in image: UIImage, pixels: [Pixel], stroke: Stroke) -> UIImage? {
+    func changePixels(pixels: [Pixel], stroke: Stroke) -> UIImage? {
+        let image = imageView.image!
         guard let inputCGImage = image.cgImage else {
             return nil
         }
@@ -120,6 +121,7 @@ class CanvasView: UIView {
         let xBounds = Int(imageView.image!.size.width * imageView.image!.scale)
         let yBounds = Int(imageView.image!.size.height * imageView.image!.scale)
         
+        print(pixels)
         pixels.forEach { center in
             var area = stroke.calculatePixels(img: pixelBuffer, px: center, xBounds: xBounds, yBounds: yBounds)
             
@@ -186,12 +188,12 @@ class CanvasView: UIView {
         if let pixel = Pixel(point: point, view: imageView, color: stroke.primary) {
             touchPoints.append(pixel)
         }
-        imageView.image = changePixels(in: imageView.image!, pixels: touchPoints, stroke: stroke)
+        imageView.image = changePixels(pixels: touchPoints, stroke: stroke)
         setNeedsDisplay()
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || stroke.tool == "eyedropper") { return }
+        if(movementEnabled || stroke.tool == "eyedropper" || stroke.tool == "fill") { return }
         
         super.touchesMoved(touches, with: event)
         touches.forEach { touch in
@@ -224,7 +226,7 @@ class CanvasView: UIView {
             }
         }
         
-        imageView.image = changePixels(in: imageView.image!, pixels: centers, stroke: stroke)
+        imageView.image = changePixels(pixels: centers, stroke: stroke)
         setNeedsDisplay()
     }
     

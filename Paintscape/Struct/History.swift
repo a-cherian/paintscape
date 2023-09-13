@@ -59,7 +59,7 @@ struct History {
         var replaced = [Pixel]()
         
         pixels.forEach { pixel in
-            if pixel.x > 0 && pixel.y > 0 && pixel.x < width && pixel.y < height {
+            if pixel.x >= 0 && pixel.y >= 0 && pixel.x < width && pixel.y < height {
                 let offset = pixel.y * width + pixel.x
                 replaced.append(Pixel(x: pixel.x, y: pixel.y, color: pixelBuffer[offset]))
             }
@@ -100,7 +100,7 @@ struct History {
         let pixels = history[current]
         var replaced = [Pixel]()
         pixels.forEach { pixel in
-            if pixel.x > 0 && pixel.y > 0 && pixel.x < width && pixel.y < height {
+            if pixel.x >= 0 && pixel.y >= 0 && pixel.x < width && pixel.y < height {
                 let offset = pixel.y * width + pixel.x
                 replaced.append(Pixel(x: pixel.x, y: pixel.y, color: pixelBuffer[offset]))
             }
