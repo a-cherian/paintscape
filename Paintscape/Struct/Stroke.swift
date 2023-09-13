@@ -12,7 +12,7 @@ struct Stroke {
     var secondary: RGBA32
     
     init() {
-        self.tool = ""
+        self.tool = "brush"
         self.tip = Tip(type: .square, r: 2)
         self.primary = RGBA32(r: 0, g: 0, b: 0, a: 255)
         self.secondary = RGBA32(r: 255, g: 255, b: 255, a: 255)
@@ -21,7 +21,6 @@ struct Stroke {
     init(tool: String, tip: Tip = Tip(type: .square, r: 1), primary: RGBA32 = RGBA32(), secondary: RGBA32 = RGBA32()) {
         self.tool = tool
         self.tip = tip
-        if(tool == "fill") { self.tip = Tip(type: .square, r: 1) }
         self.primary = primary
         self.secondary = secondary
     }
