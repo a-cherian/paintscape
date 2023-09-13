@@ -17,8 +17,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let swapColorIcon = UIImage(systemName: "arrow.triangle.2.circlepath") ?? UIImage()
     let squareIcon = UIImage(named: "square_tip") ?? UIImage()
     let circleIcon = UIImage(named: "circle_tip") ?? UIImage()
-    let replaceOnIcon = UIImage(systemName: "square.filled.on.square") ?? UIImage()
-    let replaceOffIcon = UIImage(systemName: "square.fill.on.square.fill") ?? UIImage()
+    let toolsIcon = UIImage(systemName: "pencil.and.ruler") ?? UIImage()
+    let replaceOnIcon = UIImage(systemName: "square.fill.on.square.fill") ?? UIImage()
+    let replaceOffIcon = UIImage(systemName: "square.fill.on.square") ?? UIImage()
     let eyedropperOnIcon = UIImage(systemName: "eyedropper.full") ?? UIImage()
     let eyedropperOffIcon = UIImage(systemName: "eyedropper") ?? UIImage()
     let fillOnIcon = UIImage(systemName: "paintbrush.fill") ?? UIImage()
@@ -29,18 +30,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     var toolIcon = UIImage(systemName: "paintbrush.pointed.fill") ?? UIImage()
     
-    var toolsExpanded = false {
+    var toolsExpanded = true {
         didSet {
-            if toolsExpanded {
-                rightTopStack.removeArrangedSubview(toolsButton)
-                toolsButton.removeFromSuperview()
-                rightTopStack.insertArrangedSubview(toolsStack, at: 0)
-            }
-            else {
-                rightTopStack.removeArrangedSubview(toolsStack)
-                toolsStack.removeFromSuperview()
-                rightTopStack.insertArrangedSubview(toolsButton, at: 0)
-            }
+            if toolsExpanded { addToolsToStack() }
+            else { removeToolsFromStack() }
         }
     }
     var movementEnabled = false {
@@ -48,7 +41,6 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             canvasView.movementEnabled = movementEnabled
             if movementEnabled { addMoveGestures() }
             else { removeMoveGestures() }
-            setStaticButtonStyle(button: moveButton, condition: movementEnabled, iconOn: moveIcon, toggleBg: true)
         }
     }
     var tipType: TipType = .square {
@@ -65,22 +57,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             setStaticButtonStyle(button: fillButton, condition: tool == "fill", iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
             updateStroke()
             removeEyedropper()
-            if tool == "brush" {
-                setStaticButtonStyle(button: toolsButton, iconOn: brushOnIcon)
-            }
-            else if tool == "eyedropper" {
-                addEyedropper()
-                setStaticButtonStyle(button: toolsButton, iconOn: eyedropperOnIcon)
-            }
-            else if tool == "replace" {
-                setStaticButtonStyle(button: toolsButton, iconOn: replaceOnIcon)
-            }
-            else if tool == "fill" {
-                setStaticButtonStyle(button: toolsButton, iconOn: fillOnIcon)
-            }
-            else {
-                setStaticButtonStyle(button: toolsButton, iconOn: brushOnIcon)
-            }
+            if tool == "eyedropper" { addEyedropper() }
         }
     }
     var tipSize: Int = 2 {
@@ -125,24 +102,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     
     
-    
-    
-    
-    
-    lazy var moveButton: UIButton = {
-        let button = UIButton()
-        setStaticButtonStyle(button: button, condition: movementEnabled, iconOn: moveIcon, toggleBg: true)
-        
-        button.addTarget(self, action: #selector(didTapMoveButton), for: .touchUpInside)
-        
-        return button
-    }()
+
     
     lazy var toolsButton: UIButton = {
         let button = UIButton()
-        setStaticButtonStyle(button: button, iconOn: brushOnIcon)
+        setStaticButtonStyle(button: button, iconOn: toolsIcon)
         
         button.addTarget(self, action: #selector(didTapToolsButton), for: .touchUpInside)
+        button.layer.cornerRadius = 5
         
         return button
     }()
@@ -289,6 +256,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 20
+        stack.addArrangedSubview(toolsButton)
         stack.addArrangedSubview(brushButton)
         stack.addArrangedSubview(eyedropperButton)
         stack.addArrangedSubview(replaceButton)
@@ -302,7 +270,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .leading
         stack.distribution = .fillEqually
         stack.spacing = 20
-        stack.addArrangedSubview(toolsButton)
+        stack.addArrangedSubview(toolsStack)
         return stack
     }()
     
@@ -349,7 +317,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.spacing = 20
         stack.addArrangedSubview(colorPicker)
         stack.addArrangedSubview(swapColorButton)
-        stack.addArrangedSubview(moveButton)
+        stack.addArrangedSubview(tipButton)
         return stack
     }()
     
@@ -437,6 +405,22 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     private func removeEyedropper() {
         view.removeGestureRecognizer(dropperPan)
+    }
+    
+    private func removeToolsFromStack() {
+        let buttons = [brushButton, eyedropperButton, replaceButton, fillButton]
+        
+        buttons.forEach {button in
+            toolsStack.removeArrangedSubview(button)
+            button.removeFromSuperview()
+        }
+    }
+    
+    private func addToolsToStack() {
+        toolsStack.addArrangedSubview(brushButton)
+        toolsStack.addArrangedSubview(eyedropperButton)
+        toolsStack.addArrangedSubview(replaceButton)
+        toolsStack.addArrangedSubview(fillButton)
     }
     
     func updateStroke() {
@@ -533,12 +517,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     
     
-    
-    
-    @objc private func didTapMoveButton() {
-        movementEnabled = !movementEnabled
-        canvasView.movementEnabled = movementEnabled
-    }
+
     
     @objc private func didTapSwapColorButton() {
         let temp = primary
@@ -552,19 +531,24 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     @objc private func didTapToolsButton() {
-        toolsExpanded = true
+        toolsExpanded = !toolsExpanded
     }
     
     @objc private func didTapToolButton(_ sender: UIButton) {
-        toolsExpanded = false
         var toolName = ""
         if sender.tag == 0  { toolName = "brush" }
         if sender.tag == 1  { toolName = "replace" }
         if sender.tag == 2  { toolName = "eyedropper" }
         if sender.tag == 3  { toolName = "fill" }
         
-        if tool == toolName { tool = "" }
-        else { tool = toolName }
+        if tool == toolName {
+            movementEnabled = true
+            tool = ""
+        }
+        else {
+            movementEnabled = false
+            tool = toolName
+        }
     }
     
     @objc private func didTapUndoButton() {
