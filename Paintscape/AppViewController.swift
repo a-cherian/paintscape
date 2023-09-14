@@ -64,6 +64,12 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             if tool == "brush" || tool == "replace" {
                 rightTopStack.addArrangedSubview(tipButton)
             }
+            if tool == "" {
+                movementEnabled = true
+            }
+            else {
+                movementEnabled = false
+            }
         }
     }
     var tipSize: Int = 2 {
@@ -496,9 +502,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvasView.center = view.center
         initialCenter = view.center
         
+        removeEyedropper()
+        removeMoveGestures()
         pinch = UIPinchGestureRecognizer(target: self, action: #selector(didPinch(_:)))
         pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
         dropperPan = UIPanGestureRecognizer(target: self, action: #selector(didEyedrop(_:)))
+        updateStroke()
+        let prevTool = tool
+        tool = prevTool
     }
     
     func setStaticButtonStyle(button: UIButton, condition: Bool = true, iconOn: UIImage, iconOff: UIImage? = nil, toggleBg: Bool = false) {
@@ -590,11 +601,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         if sender.tag == 3  { toolName = "fill" }
         
         if tool == toolName {
-            movementEnabled = true
             tool = ""
         }
         else {
-            movementEnabled = false
             tool = toolName
         }
     }

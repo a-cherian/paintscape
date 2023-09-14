@@ -20,7 +20,7 @@ struct Pixel: Equatable, Hashable {
     
     init?(point: CGPoint, view: UIImageView, color: RGBA32) {
         let xBounds = view.image!.scale * view.image!.size.width
-        let yBounds = view.image!.scale * view.image!.size.width
+        let yBounds = view.image!.scale * view.image!.size.height
         let xRatio = xBounds / view.frame.size.width
         let yRatio = yBounds / view.frame.size.height
         self.x = Int((xRatio * point.x))
