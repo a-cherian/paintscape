@@ -77,100 +77,6 @@ class CanvasView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func undo() {
-        if let img = history.undo(image: imageView.image!) {
-            imageView.image = img
-            refreshContext()
-        }
-        setNeedsDisplay()
-    }
-    
-    func redo() {
-        if let img = history.redo(image: imageView.image!) {
-            imageView.image = img
-            refreshContext()
-        }
-        setNeedsDisplay()
-    }
-    
-    func eyedropper(location: CGPoint) {
-        guard let pixel = Pixel(point: location, view: imageView, color: RGBA32()) else { return }
-        
-        delegate?.didColorChange(imageView.image!.getPixel(pixel: pixel))
-    }
-    
-    // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
-    func changePixels(pixels: [Pixel], history: Bool = false) -> UIImage? {
-        let image = imageView.image!
-        guard let inputCGImage = image.cgImage else {
-            return nil
-        }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = inputCGImage.width
-        let height           = inputCGImage.height
-        let bytesPerPixel    = 4
-        let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
-        
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            return nil
-        }
-        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        guard let buffer = context.data else {
-            return nil
-        }
-        
-        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
-        
-        pixels.forEach { pixel in
-            let offset = pixel.y * xBounds + pixel.x
-            pixelBuffer[offset] = pixel.color
-        }
-        
-        let outputCGImage = context.makeImage()!
-        let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
-        
-        centers = [Pixel]()
-        points = [Pixel]()
-        
-        return outputImage
-    }
-    
-    // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
-    func getPixel(in image: UIImage, pixel: Pixel) -> RGBA32 {
-        guard let inputCGImage = image.cgImage else {
-            return RGBA32()
-        }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = inputCGImage.width
-        let height           = inputCGImage.height
-        let bytesPerPixel    = 4
-        let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
-        
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            return RGBA32()
-        }
-        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        guard let buffer = context.data else {
-            return RGBA32()
-        }
-        
-        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
-        
-        if pixel.x > 0 && pixel.y > 0 && pixel.x < xBounds && pixel.y < yBounds {
-            let offset = pixel.y * xBounds + pixel.x
-            let currColor = pixelBuffer[offset]
-            return currColor
-        }
-        
-        return RGBA32()
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(movementEnabled || stroke.tool == .eyedropper) { return }
         
@@ -194,27 +100,6 @@ class CanvasView: UIView {
             }
         }
         setNeedsDisplay()
-    }
-    
-    func drawTip(x: Int, y: Int) -> UIImage? {
-        guard let tipCGImage = stroke.tipImage.cgImage else { return nil }
-        guard let img = imageView.image else { return nil }
-        context?.interpolationQuality = .none
-        
-        let tipWidth = stroke.tipImage.size.width
-        let tipHeight = stroke.tipImage.size.height
-        let offset = stroke.tip.width % 2 == 0 ? 0 : -0.5
-        context?.draw(tipCGImage, in: CGRect(x: CGFloat(x) - tipWidth / 2 + offset, y: CGFloat(yBounds - y) - tipHeight / 2 + offset, width: tipWidth, height: tipHeight))
-        
-        guard let outputCGImage = context?.makeImage() else {
-            return nil
-        }
-        let outputImage = UIImage(cgImage: outputCGImage, scale: img.scale, orientation: img.imageOrientation)
-        
-        centers = [Pixel]()
-        points = [Pixel]()
-        
-        return outputImage
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -256,6 +141,49 @@ class CanvasView: UIView {
         touchPoints = [Pixel]()
         centers = [Pixel]()
         points = [Pixel]()
+    }
+    
+    func drawTip(x: Int, y: Int) -> UIImage? {
+        guard let tipCGImage = stroke.tipImage.cgImage else { return nil }
+        guard let img = imageView.image else { return nil }
+        context?.interpolationQuality = .none
+        
+        let tipWidth = stroke.tipImage.size.width
+        let tipHeight = stroke.tipImage.size.height
+        let offset = stroke.tip.width % 2 == 0 ? 0 : -0.5
+        context?.draw(tipCGImage, in: CGRect(x: CGFloat(x) - tipWidth / 2 + offset, y: CGFloat(yBounds - y) - tipHeight / 2 + offset, width: tipWidth, height: tipHeight))
+        
+        guard let outputCGImage = context?.makeImage() else {
+            return nil
+        }
+        let outputImage = UIImage(cgImage: outputCGImage, scale: img.scale, orientation: img.imageOrientation)
+        
+        centers = [Pixel]()
+        points = [Pixel]()
+        
+        return outputImage
+    }
+    
+    func undo() {
+        if let img = history.undo(image: imageView.image!) {
+            imageView.image = img
+            refreshContext()
+        }
+        setNeedsDisplay()
+    }
+    
+    func redo() {
+        if let img = history.redo(image: imageView.image!) {
+            imageView.image = img
+            refreshContext()
+        }
+        setNeedsDisplay()
+    }
+    
+    func eyedropper(location: CGPoint) {
+        guard let pixel = Pixel(point: location, view: imageView, color: RGBA32()) else { return }
+        
+        delegate?.didColorChange(imageView.image!.getPixel(pixel: pixel))
     }
     
     func createReplaceMask() {
@@ -317,6 +245,68 @@ class CanvasView: UIView {
                 touchPoints = touchPoints.suffix(1)
             }
         }
+    }
+    
+    func generateContext() {
+        guard let inputCGImage = imageView.image?.cgImage else {
+            return
+        }
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = inputCGImage.width
+        let height           = inputCGImage.height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = RGBA32.bitmapInfo
+        
+        
+        context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+        context?.interpolationQuality = .none
+        context!.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+    }
+    
+    func refreshContext() {
+        generateContext()
+        if stroke.tool == .replace { createReplaceMask() }
+    }
+    
+    // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
+    func changePixels(pixels: [Pixel], history: Bool = false) -> UIImage? {
+        let image = imageView.image!
+        guard let inputCGImage = image.cgImage else {
+            return nil
+        }
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = inputCGImage.width
+        let height           = inputCGImage.height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = RGBA32.bitmapInfo
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return nil
+        }
+        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        guard let buffer = context.data else {
+            return nil
+        }
+        
+        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
+        
+        pixels.forEach { pixel in
+            let offset = pixel.y * xBounds + pixel.x
+            pixelBuffer[offset] = pixel.color
+        }
+        
+        let outputCGImage = context.makeImage()!
+        let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
+        
+        centers = [Pixel]()
+        points = [Pixel]()
+        
+        return outputImage
     }
     
     func fillStrokeRegion() {
@@ -418,29 +408,6 @@ class CanvasView: UIView {
         let offset = y * xBounds + x
         let pxColor = img[offset]
         return x >= 0 && y >= 0 && x < xBounds && y < yBounds && color == pxColor
-    }
-    
-    func generateContext() {
-        guard let inputCGImage = imageView.image?.cgImage else {
-            return
-        }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = inputCGImage.width
-        let height           = inputCGImage.height
-        let bytesPerPixel    = 4
-        let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
-        
-        
-        context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
-        context?.interpolationQuality = .none
-        context!.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-    }
-    
-    func refreshContext() {
-        generateContext()
-        if stroke.tool == .replace { createReplaceMask() }
     }
 }
 
