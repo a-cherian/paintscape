@@ -14,19 +14,24 @@ struct Tip {
     var type: TipType
     var radius: Int
     var region: [(x: Int, y: Int)]
+    var width: Int
     
     init(type: TipType, r: Int) {
         self.type = type
         self.radius = r
+        self.width = r
         if type == .circle {
             if(r == 1) {
                 self.region = [(x: 0, y: 0)]
+                self.width = 1
             }
             else if(r == 2) {
                 self.region = [(x: 0, y: 0), (x: 0, y: -1), (x: 1, y: 0), (x: 1, y: -1)]
+                self.width = 2
             }
             else {
                 self.region = Tip.cutCorners(square: Tip.getSquareRegion(radius: r + 2), r: r + 2)
+                self.width = r + 2
             }
         }
         else {
@@ -93,5 +98,10 @@ struct Tip {
     
     func getTouchRegion(x: Int, y: Int) -> [(Int, Int)] {
         region.map { (x: $0.x + x, y: $0.y + y) }
+    }
+    
+    func getTipRegion() -> [(x: Int, y: Int)] {
+        let w = width
+        return region.map { (x: $0.x + w / 2 - (w % 2 == 1 ? 0 : 1), y: $0.y + w / 2) }
     }
 }

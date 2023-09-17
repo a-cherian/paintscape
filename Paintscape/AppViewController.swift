@@ -20,10 +20,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let toolsIcon = UIImage(systemName: "pencil.and.ruler") ?? UIImage()
     let replaceOnIcon = UIImage(systemName: "square.fill.on.square.fill") ?? UIImage()
     let replaceOffIcon = UIImage(systemName: "square.fill.on.square") ?? UIImage()
-    let eyedropperOnIcon = UIImage(systemName: "eyedropper.full") ?? UIImage()
-    let eyedropperOffIcon = UIImage(systemName: "eyedropper") ?? UIImage()
     let fillOnIcon = UIImage(systemName: "paintbrush.fill") ?? UIImage()
     let fillOffIcon = UIImage(systemName: "paintbrush") ?? UIImage()
+    let eyedropperOnIcon = UIImage(systemName: "eyedropper.full") ?? UIImage()
+    let eyedropperOffIcon = UIImage(systemName: "eyedropper") ?? UIImage()
     let undoIcon = UIImage(systemName: "arrow.uturn.backward") ?? UIImage()
     let redoIcon = UIImage(systemName: "arrow.uturn.forward") ?? UIImage()
     let menuIcon = UIImage(systemName: "line.3.horizontal") ?? UIImage()
@@ -50,21 +50,25 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             updateStroke()
         }
     }
-    var tool: String = "brush" {
+    var tool: Tool = .brush {
         didSet {
-            setStaticButtonStyle(button: brushButton, condition: tool == "brush", iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
-            setStaticButtonStyle(button: replaceButton, condition: tool == "replace", iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
-            setStaticButtonStyle(button: eyedropperButton, condition: tool == "eyedropper", iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
-            setStaticButtonStyle(button: fillButton, condition: tool == "fill", iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: brushButton, condition: tool == .brush, iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: replaceButton, condition: tool == .replace, iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: fillButton, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: eyedropperButton, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
             updateStroke()
             removeEyedropper()
             rightTopStack.removeArrangedSubview(tipButton)
             tipButton.removeFromSuperview()
-            if tool == "eyedropper" { addEyedropper() }
-            if tool == "brush" || tool == "replace" {
+            sizeSlider.removeFromSuperview()
+            if tool == .eyedropper { addEyedropper() }
+            if tool == .brush || tool == .replace {
                 rightTopStack.addArrangedSubview(tipButton)
+                view.insertSubview(sizeSlider, at: 1)
+                sizeSlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                sizeSlider.topAnchor.constraint(equalTo: view.topAnchor, constant: 45).isActive = true
             }
-            if tool == "" {
+            if tool == .none {
                 movementEnabled = true
             }
             else {
@@ -74,7 +78,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     var tipSize: Int = 2 {
         didSet {
-            updateStroke()
+            updateStroke(sizeChange: true)
         }
     }
     var primary = UIColor.black {
@@ -129,7 +133,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     lazy var brushButton: UIButton = {
         let button = UIButton()
         button.tag = 0
-        setStaticButtonStyle(button: button, condition: tool == "brush", iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
+        setStaticButtonStyle(button: button, condition: tool == .brush, iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
         
@@ -139,17 +143,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     lazy var replaceButton: UIButton = {
         let button = UIButton()
         button.tag = 1
-        setStaticButtonStyle(button: button, condition: tool == "replace", iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
-        
-        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var eyedropperButton: UIButton = {
-        let button = UIButton()
-        button.tag = 2
-        setStaticButtonStyle(button: button, condition: tool == "eyedropper", iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
+        setStaticButtonStyle(button: button, condition: tool == .replace, iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
         
@@ -158,8 +152,18 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     lazy var fillButton: UIButton = {
         let button = UIButton()
+        button.tag = 2
+        setStaticButtonStyle(button: button, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+        
+        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var eyedropperButton: UIButton = {
+        let button = UIButton()
         button.tag = 3
-        setStaticButtonStyle(button: button, condition: tool == "fill", iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+        setStaticButtonStyle(button: button, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
         
@@ -257,7 +261,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.minimumValue = 1
-        slider.maximumValue = 30
+        slider.maximumValue = 75
         slider.tintColor = accentColor
         
         slider.addTarget(self, action: #selector(didSizeChange), for: UIControl.Event.valueChanged)
@@ -404,7 +408,6 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.alignment = .center
         stack.distribution = .equalSpacing
         stack.spacing = 100
-//        stack.addArrangedSubview(sizeSlider)
         stack.heightAnchor.constraint(equalToConstant: self.view.bounds.height).isActive = true
         stack.widthAnchor.constraint(equalToConstant: self.view.bounds.width).isActive = true
         return stack
@@ -422,7 +425,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.init(nibName: nil, bundle: nil)
         self.canvasHeight = height
         self.canvasWidth = width
-        toolButtons = [brushButton, replaceButton, eyedropperButton, fillButton]
+        toolButtons = [brushButton, replaceButton, fillButton, eyedropperButton]
     }
     
     required init?(coder: NSCoder) {
@@ -476,12 +479,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
     }
     
-    func updateStroke() {
+    func updateStroke(sizeChange: Bool = false) {
         guard let primRGBA = primary.rgba else { return }
         guard let secRGBA = secondary.rgba else { return }
         let primary = RGBA32(r: primRGBA.r, g: primRGBA.g, b: primRGBA.b, a: primRGBA.a, nType: CGFloat.self)
         let secondary = RGBA32(r: secRGBA.r, g: secRGBA.g, b: secRGBA.b, a: secRGBA.a, nType: CGFloat.self)
         canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary)
+        if tool == .replace && !sizeChange {
+            canvasView.createReplaceMask()
+        }
     }
     
     func createCanvas(height: CGFloat, width: CGFloat) {
@@ -501,6 +507,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvasView.transform = CGAffineTransformScale(canvasView.transform, initScale, initScale);
         canvasView.center = view.center
         initialCenter = view.center
+        
+        magnifyingGlass = MagnifyingGlassView(offset: CGPoint.zero,
+                                              radius: min(view.bounds.width, view.bounds.height) / (initXScale * 20),
+                                                  scale: 2.0,
+                                                  borderColor: UIColor.lightGray,
+                                                  borderWidth: min(view.bounds.width, view.bounds.height) / (initXScale * 100),
+                                                  showsCrosshair: true,
+                                                  crosshairColor: UIColor.lightGray,
+                                                  crosshairWidth: 0.5)
         
         removeEyedropper()
         removeMoveGestures()
@@ -594,14 +609,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     @objc private func didTapToolButton(_ sender: UIButton) {
-        var toolName = ""
-        if sender.tag == 0  { toolName = "brush" }
-        if sender.tag == 1  { toolName = "replace" }
-        if sender.tag == 2  { toolName = "eyedropper" }
-        if sender.tag == 3  { toolName = "fill" }
+        var toolName: Tool = .none
+        if sender.tag == 0  { toolName = .brush }
+        if sender.tag == 1  { toolName = .replace }
+        if sender.tag == 2  { toolName = .fill }
+        if sender.tag == 3  { toolName = .eyedropper }
         
         if tool == toolName {
-            tool = ""
+            tool = .none
         }
         else {
             tool = toolName
@@ -683,8 +698,19 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         dismiss(animated: true, completion: nil)
     }
     
-    func didLoadOccur() {
-        
+    func didLoadOccur(image: UIImage) {
+        createCanvas(height: image.size.height, width: image.size.width)
+        canvasView.imageView.image = image
+        canvasView.refreshContext()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func didResizeOccur(height: Int, width: Int) {
+        let resizedImage = canvasView.imageView.image?.scale(height: CGFloat(height), width: CGFloat(width))
+        createCanvas(height: CGFloat(height), width: CGFloat(width))
+        canvasView.imageView.image = resizedImage
+        canvasView.refreshContext()
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {

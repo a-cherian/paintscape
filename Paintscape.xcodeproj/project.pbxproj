@@ -13,6 +13,16 @@
 		400310332A9C736B0038E61B /* PaintscapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400310322A9C736B0038E61B /* PaintscapeTests.swift */; };
 		4003103D2A9C736B0038E61B /* PaintscapeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */; };
 		4003103F2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */; };
+		405E8B7A2AB294A500329C8F /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B792AB294A500329C8F /* UIImageExtension.swift */; };
+		405E8B7B2AB3743800329C8F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409317EB2AB0461F0057DCA7 /* Stack.swift */; };
+		405E8B7D2AB3A70100329C8F /* ImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B7C2AB3A70100329C8F /* ImageHistory.swift */; };
+		405E8B802AB504B800329C8F /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0502D2A9F0E9400D0566C /* CanvasView.swift */; };
+		405E8B812AB5050F00329C8F /* ImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B7C2AB3A70100329C8F /* ImageHistory.swift */; };
+		405E8B822AB5051400329C8F /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050352A9F0EAB00D0566C /* MagnifyingGlassView.swift */; };
+		405E8B832AB5052E00329C8F /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B792AB294A500329C8F /* UIImageExtension.swift */; };
+		405E8B842AB5053100329C8F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050492A9F0F8B00D0566C /* UIViewExtension.swift */; };
+		405E8B892AB61D3900329C8F /* CGColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B882AB61D3900329C8F /* CGColorExtension.swift */; };
+		405E8B8A2AB6205C00329C8F /* CGColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B882AB61D3900329C8F /* CGColorExtension.swift */; };
 		409317EC2AB0461F0057DCA7 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409317EB2AB0461F0057DCA7 /* Stack.swift */; };
 		40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0502D2A9F0E9400D0566C /* CanvasView.swift */; };
 		40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050312A9F0EA100D0566C /* AppViewController.swift */; };
@@ -65,6 +75,9 @@
 		400310382A9C736B0038E61B /* PaintscapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintscapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4003103C2A9C736B0038E61B /* PaintscapeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITests.swift; sourceTree = "<group>"; };
 		4003103E2A9C736B0038E61B /* PaintscapeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintscapeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		405E8B792AB294A500329C8F /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		405E8B7C2AB3A70100329C8F /* ImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHistory.swift; sourceTree = "<group>"; };
+		405E8B882AB61D3900329C8F /* CGColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGColorExtension.swift; sourceTree = "<group>"; };
 		409317EB2AB0461F0057DCA7 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		40D0502D2A9F0E9400D0566C /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		40D050312A9F0EA100D0566C /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +184,8 @@
 				40D050472A9F0F8A00D0566C /* UIImageViewExtension.swift */,
 				40D050452A9F0F8A00D0566C /* UIViewControllerExtension.swift */,
 				40D050492A9F0F8B00D0566C /* UIViewExtension.swift */,
+				405E8B792AB294A500329C8F /* UIImageExtension.swift */,
+				405E8B882AB61D3900329C8F /* CGColorExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -180,6 +195,7 @@
 			children = (
 				40D0503B2A9F0F7700D0566C /* Pixel.swift */,
 				40D0503D2A9F0F7700D0566C /* History.swift */,
+				405E8B7C2AB3A70100329C8F /* ImageHistory.swift */,
 				40D0503F2A9F0F7700D0566C /* Stroke.swift */,
 				40D0503E2A9F0F7700D0566C /* RGBA32.swift */,
 				40D0503C2A9F0F7700D0566C /* Tip.swift */,
@@ -319,8 +335,10 @@
 			files = (
 				40D050442A9F0F7700D0566C /* Stroke.swift in Sources */,
 				40D050362A9F0EAB00D0566C /* MagnifyingGlassView.swift in Sources */,
+				405E8B7D2AB3A70100329C8F /* ImageHistory.swift in Sources */,
 				40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */,
 				40D050422A9F0F7700D0566C /* History.swift in Sources */,
+				405E8B892AB61D3900329C8F /* CGColorExtension.swift in Sources */,
 				40D050382A9F0EAF00D0566C /* MenuViewController.swift in Sources */,
 				40D0504F2A9F0F8B00D0566C /* UIViewExtension.swift in Sources */,
 				40D0504E2A9F0F8B00D0566C /* UIColorExtension.swift in Sources */,
@@ -330,6 +348,7 @@
 				409317EC2AB0461F0057DCA7 /* Stack.swift in Sources */,
 				40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */,
 				40D050432A9F0F7700D0566C /* RGBA32.swift in Sources */,
+				405E8B7A2AB294A500329C8F /* UIImageExtension.swift in Sources */,
 				40D050562A9F3D9900D0566C /* ContainerStackView.swift in Sources */,
 				40D050412A9F0F7700D0566C /* Tip.swift in Sources */,
 				40D0504B2A9F0F8B00D0566C /* UIViewControllerExtension.swift in Sources */,
@@ -343,12 +362,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D050592A9F3E0400D0566C /* Pixel.swift in Sources */,
+				405E8B8A2AB6205C00329C8F /* CGColorExtension.swift in Sources */,
 				40D0505C2A9F3E2900D0566C /* CurveHelper.swift in Sources */,
+				405E8B812AB5050F00329C8F /* ImageHistory.swift in Sources */,
 				40D050582A9F3DFF00D0566C /* History.swift in Sources */,
 				40D0505B2A9F3E0900D0566C /* RGBA32.swift in Sources */,
+				405E8B7B2AB3743800329C8F /* Stack.swift in Sources */,
 				40D0505A2A9F3E0600D0566C /* Stroke.swift in Sources */,
 				400310332A9C736B0038E61B /* PaintscapeTests.swift in Sources */,
 				40D050572A9F3DF700D0566C /* Tip.swift in Sources */,
+				405E8B842AB5053100329C8F /* UIViewExtension.swift in Sources */,
+				405E8B802AB504B800329C8F /* CanvasView.swift in Sources */,
+				405E8B822AB5051400329C8F /* MagnifyingGlassView.swift in Sources */,
+				405E8B832AB5052E00329C8F /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

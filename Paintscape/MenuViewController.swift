@@ -11,12 +11,14 @@ import SwiftUI
 protocol MenuViewControllerDelegate: AnyObject {
     func didExportOccur()
     func didCreateOccur(height: Int, width: Int)
-    func didLoadOccur()
+    func didLoadOccur(image: UIImage)
+    func didResizeOccur(height: Int, width: Int)
 }
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     weak var delegate: MenuViewControllerDelegate?
     let MAX_DIMENSION = 2048
+    var buttons: [UIButton] = []
     
     lazy var exportButton: UIButton = {
         let button = UIButton()
@@ -39,6 +41,13 @@ class MenuViewController: UIViewController {
         return button
     }()
     
+    lazy var resizeButton: UIButton = {
+        let button = UIButton()
+        setStaticButtonStyle(button: button, title: "Resize Canvas")
+        button.addTarget(self, action: #selector(didTapResizeButton), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var listStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -47,11 +56,9 @@ class MenuViewController: UIViewController {
         stack.distribution = .fillEqually
         stack.spacing = 20
         stack.backgroundColor = UIColor.orange
-        stack.addArrangedSubview(exportButton)
-        stack.addArrangedSubview(createButton)
-        stack.addArrangedSubview(loadButton)
-//        stack.isLayoutMarginsRelativeArrangement = true
-//        stack.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        buttons.forEach { button in
+            stack.addArrangedSubview(button)
+        }
         return stack
     }()
     
@@ -63,6 +70,7 @@ class MenuViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        buttons = [exportButton, createButton, loadButton, resizeButton]
     }
     
     required init?(coder: NSCoder) {
@@ -86,9 +94,9 @@ class MenuViewController: UIViewController {
     }
     
     func setButtonConstraints() {
-        setStaticButtonConstraints(button: exportButton)
-        setStaticButtonConstraints(button: createButton)
-        setStaticButtonConstraints(button: loadButton)
+        buttons.forEach { button in
+            setStaticButtonConstraints(button: button)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -111,9 +119,8 @@ class MenuViewController: UIViewController {
     }
     
     @objc private func didTapCreateButton() {
-        let alert = UIAlertController(title: "Canvas Dimensions", message: "Enter a height and width", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Create Canvas", message: "Enter a height and width", preferredStyle: .alert)
 
-        // Add a textField to your controller, with a placeholder value & secure entry enabled
         alert.addTextField { textField in
             textField.placeholder = "Height"
             textField.textAlignment = .center
@@ -142,11 +149,51 @@ class MenuViewController: UIViewController {
         alert.addAction(confirmAction)
 
         present(alert, animated: false, completion: nil)
-        
     }
     
     @objc private func didTapLoadButton() {
-        delegate?.didLoadOccur()
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.delegate = self
+        present(imagePickerVC, animated: true)
+    }
+    
+    @objc private func didTapResizeButton() {
+        let alert = UIAlertController(title: "Resize Canvas", message: "Enter a height and width", preferredStyle: .alert)
+
+        alert.addTextField { textField in
+            textField.placeholder = "Height"
+            textField.textAlignment = .center
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Width"
+            textField.textAlignment = .center
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancelled")
+        }
+
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { _ in
+            var height = alert.textFields?[0].text ?? "200"
+            var width = alert.textFields?[1].text ?? "200"
+            print("Height value: \(height)")
+            print("Width value: \(width)")
+            if Int(height) ?? 2048 > 2048 { height = String(self.MAX_DIMENSION) }
+            if Int(width) ?? 2048 > 2048 { width = String(self.MAX_DIMENSION) }
+            self.delegate?.didResizeOccur(height: Int(height) ?? 200, width: Int(width) ?? 200)
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+
+        present(alert, animated: false, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.originalImage] as? UIImage else { return }
+        delegate?.didLoadOccur(image: image)
+        dismiss(animated: true)
     }
 }
 

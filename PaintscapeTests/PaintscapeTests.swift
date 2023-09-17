@@ -90,4 +90,20 @@ final class PaintscapeTests: XCTestCase {
         XCTAssertEqual(hist.history, expectedHistory)
         XCTAssertEqual(hist.current, 2)
     }
+    
+    func testBigStrokeSpeed() {
+        measure {
+            let stroke = Stroke(tool: .brush, tip: Tip(type: .square, r: 30), primary: RGBA32(), secondary: RGBA32())
+            for _ in 1...1000 {
+                let area = stroke.tip.getTouchRegion(x: 100, y: 100)
+            }
+        }
+    }
+    
+    func testCreateMaskSpeed() {
+        measure {
+            let canvas = CanvasView(frame: CGRect(x: 0, y: 0, width: 2000, height: 2000))
+            canvas.createReplaceMask()
+        }
+    }
 }
