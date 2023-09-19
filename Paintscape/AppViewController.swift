@@ -22,12 +22,17 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let replaceOffIcon = UIImage(systemName: "square.fill.on.square") ?? UIImage()
     let fillOnIcon = UIImage(systemName: "paintbrush.fill") ?? UIImage()
     let fillOffIcon = UIImage(systemName: "paintbrush") ?? UIImage()
+    let spraycanOnIcon = UIImage(systemName: "humidifier.and.droplets.fill") ?? UIImage()
+    let spraycanOffIcon = UIImage(systemName: "humidifier.and.droplets") ?? UIImage()
     let eyedropperOnIcon = UIImage(systemName: "eyedropper.full") ?? UIImage()
     let eyedropperOffIcon = UIImage(systemName: "eyedropper") ?? UIImage()
     let undoIcon = UIImage(systemName: "arrow.uturn.backward") ?? UIImage()
     let redoIcon = UIImage(systemName: "arrow.uturn.forward") ?? UIImage()
     let menuIcon = UIImage(systemName: "line.3.horizontal") ?? UIImage()
     var toolIcon = UIImage(systemName: "paintbrush.pointed.fill") ?? UIImage()
+    let denseNozzleIcon = UIImage(systemName: "aqi.high") ?? UIImage()
+    let mediumNozzleIcon = UIImage(systemName: "aqi.medium") ?? UIImage()
+    let sparseNozzleIcon = UIImage(systemName: "aqi.low") ?? UIImage()
     
     let accentColor = UIColor.orange
     
@@ -55,19 +60,24 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             setStaticButtonStyle(button: brushButton, condition: tool == .brush, iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
             setStaticButtonStyle(button: replaceButton, condition: tool == .replace, iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
             setStaticButtonStyle(button: fillButton, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: spraycanButton, condition: tool == .spraycan, iconOn: spraycanOnIcon, iconOff: spraycanOffIcon, toggleBg: true)
             setStaticButtonStyle(button: eyedropperButton, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
-            updateStroke()
+            updateStroke(toolChange: true)
             removeEyedropper()
-            rightTopStack.removeArrangedSubview(tipButton)
-            tipButton.removeFromSuperview()
+            removeFromStack(stack: rightTopStack, view: tipButton)
+            removeFromStack(stack: rightTopStack, view: nozzleButton)
             sizeSlider.removeFromSuperview()
             if tool == .eyedropper { addEyedropper() }
-            if tool == .brush || tool == .replace {
+            if tool == .brush || tool == .replace || tool == .spraycan {
                 rightTopStack.addArrangedSubview(tipButton)
                 view.insertSubview(sizeSlider, at: 1)
                 sizeSlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
                 sizeSlider.topAnchor.constraint(equalTo: view.topAnchor, constant: 45).isActive = true
             }
+            if tool == .spraycan {
+                rightTopStack.addArrangedSubview(nozzleButton)
+            }
+            
             if tool == .none {
                 movementEnabled = true
             }
@@ -160,9 +170,19 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return button
     }()
     
-    lazy var eyedropperButton: UIButton = {
+    lazy var spraycanButton: UIButton = {
         let button = UIButton()
         button.tag = 3
+        setStaticButtonStyle(button: button, condition: tool == .spraycan, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
+        
+        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var eyedropperButton: UIButton = {
+        let button = UIButton()
+        button.tag = 4
         setStaticButtonStyle(button: button, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
@@ -296,6 +316,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return cView
     }()
     
+    lazy var nozzleButton: UIButton = {
+        let button = UIButton()
+        setStaticButtonStyle(button: button, iconOn: denseNozzleIcon)
+        
+        button.addTarget(self, action: #selector(didTapNozzleButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
     lazy var toolsStack: ContainerStackView = {
         let stack = ContainerStackView()
         stack.axis = .vertical
@@ -425,7 +454,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.init(nibName: nil, bundle: nil)
         self.canvasHeight = height
         self.canvasWidth = width
-        toolButtons = [brushButton, replaceButton, fillButton, eyedropperButton]
+        toolButtons = [brushButton, replaceButton, fillButton, spraycanButton, eyedropperButton]
     }
     
     required init?(coder: NSCoder) {
@@ -466,10 +495,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         view.removeGestureRecognizer(dropperPan)
     }
     
+    private func removeFromStack(stack: UIStackView, view: UIView) {
+        stack.removeArrangedSubview(view)
+        view.removeFromSuperview()
+    }
+    
     private func removeButtonsFromStack(stack: UIStackView, buttons: [UIButton]) {
         buttons.forEach {button in
-            stack.removeArrangedSubview(button)
-            button.removeFromSuperview()
+            removeFromStack(stack: stack, view: button)
         }
     }
     
@@ -479,7 +512,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
     }
     
-    func updateStroke(sizeChange: Bool = false) {
+    func updateStroke(sizeChange: Bool = false, toolChange: Bool = false) {
         guard let primRGBA = primary.rgba else { return }
         guard let secRGBA = secondary.rgba else { return }
         let primary = RGBA32(r: primRGBA.r, g: primRGBA.g, b: primRGBA.b, a: primRGBA.a, nType: CGFloat.self)
@@ -487,6 +520,12 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary)
         if tool == .replace && !sizeChange {
             canvasView.createReplaceMask()
+        }
+        if tool == .spraycan && toolChange {
+            canvasView.startSprayMaskTimer()
+        }
+        else if toolChange {
+            canvasView.stopSprayMaskTimer()
         }
     }
     
@@ -522,7 +561,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         pinch = UIPinchGestureRecognizer(target: self, action: #selector(didPinch(_:)))
         pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
         dropperPan = UIPanGestureRecognizer(target: self, action: #selector(didEyedrop(_:)))
-        updateStroke()
+        updateStroke(toolChange: true)
         let prevTool = tool
         tool = prevTool
     }
@@ -613,7 +652,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         if sender.tag == 0  { toolName = .brush }
         if sender.tag == 1  { toolName = .replace }
         if sender.tag == 2  { toolName = .fill }
-        if sender.tag == 3  { toolName = .eyedropper }
+        if sender.tag == 3  { toolName = .spraycan }
+        if sender.tag == 4  { toolName = .eyedropper }
         
         if tool == toolName {
             tool = .none
@@ -621,6 +661,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         else {
             tool = toolName
         }
+    }
+    
+    @objc private func didTapNozzleButton(_ sender: UIButton) {
+        canvasView.changeNozzle()
+        
+        if canvasView.nozzle == 0 { setStaticButtonStyle(button: nozzleButton, iconOn: denseNozzleIcon) }
+        if canvasView.nozzle == 1 { setStaticButtonStyle(button: nozzleButton, iconOn: mediumNozzleIcon) }
+        if canvasView.nozzle == 2 { setStaticButtonStyle(button: nozzleButton, iconOn: sparseNozzleIcon) }
     }
     
     @objc private func didTapUndoButton() {

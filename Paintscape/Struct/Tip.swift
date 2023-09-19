@@ -15,6 +15,7 @@ struct Tip {
     var radius: Int
     var region: [(x: Int, y: Int)]
     var width: Int
+    var height: Int
     
     init(type: TipType, r: Int) {
         self.type = type
@@ -37,6 +38,7 @@ struct Tip {
         else {
             self.region = Tip.getSquareRegion(radius: r)
         }
+        self.height = self.width
     }
     
     static func getSquareRegion(radius: Int) -> [(Int, Int)] {

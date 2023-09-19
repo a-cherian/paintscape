@@ -27,6 +27,13 @@ class CanvasView: UIView {
     var xBounds = 200
     var yBounds = 200
     var context = CGContext(data: nil, width: 200, height: 200, bitsPerComponent: 8, bytesPerRow: 800, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: RGBA32.bitmapInfo)
+    var tileContext = CGContext(data: nil, width: 200, height: 200, bitsPerComponent: 8, bytesPerRow: 800, space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+    var noiseMasks = [[CGImage]]()
+    var noiseMaskCounter = 0
+    var sprayTimer: Timer? = nil
+    var nozzle = 0
+    var clipped = true
+    let nozzleSizes = [3, 9, 21]
     
     override init(frame: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: 200))) {
         super.init(frame: frame)
@@ -71,6 +78,51 @@ class CanvasView: UIView {
                                               crosshairWidth: 0.5)
         
         layer.magnificationFilter = CALayerContentsFilter.nearest
+        
+        nozzleSizes.forEach { i in
+            var noiseMaskGroup = [CGImage]()
+            for _ in 0...3 {
+                noiseMaskGroup.append(createNoiseMask(bwRatio: i)!)
+            }
+            noiseMasks.append(noiseMaskGroup)
+        }
+        
+        DispatchQueue.main.async {
+            for i in 0..<(self.nozzleSizes.count) {
+                let size = self.nozzleSizes[i]
+                for _ in 0...size + 10 {
+                    self.noiseMasks[i].append(self.createNoiseMask(bwRatio: size)!)
+                }
+                if size > 5 { self.noiseMasks[i].append(self.fillGaps(images: self.noiseMasks[i])) }
+            }
+            
+        }
+    }
+    
+    func fillGaps(images: [CGImage]) -> CGImage {
+        let colorSpace       = CGColorSpaceCreateDeviceGray()
+        let width            = images[0].width
+        let height           = images[0].height
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = CGImageAlphaInfo.noneSkipLast.rawValue
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return images[0]
+        }
+        
+        context.draw(images[0], in: CGRect(x: 0, y: 0, width: width, height: height))
+        context.setBlendMode(.screen)
+        
+        images.forEach { image in
+            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+        }
+        
+        let outputCGImage = context.makeImage()!
+        let outputImage = UIImage(cgImage: outputCGImage, scale: imageView.image!.scale, orientation: imageView.image!.imageOrientation)
+        
+        return outputImage.binarize().cgImage!
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -127,6 +179,7 @@ class CanvasView: UIView {
         centers.forEach { center in
             imageView.image = drawTip(x: center.x, y: center.y) ?? imageView.image
         }
+        
         centers = [Pixel]()
         
         setNeedsDisplay()
@@ -141,6 +194,39 @@ class CanvasView: UIView {
         touchPoints = [Pixel]()
         centers = [Pixel]()
         points = [Pixel]()
+    }
+    
+    func startSprayMaskTimer() {
+        if sprayTimer != nil { return }
+        if let ctx = self.tileContext {
+            let tile = self.noiseMasks[self.nozzle][self.noiseMaskCounter]
+            let mask = tile.tileImage(context: ctx, height: self.yBounds, width: self.xBounds)
+            if self.clipped { self.context?.restoreGState() }
+            self.context?.saveGState()
+            self.context?.clip(to: CGRect(x: 0, y: 0, width: self.xBounds, height: self.yBounds), mask: mask)
+            self.clipped = true
+            self.noiseMaskCounter += 1
+            if self.noiseMaskCounter >= self.noiseMasks[self.nozzle].count { self.noiseMaskCounter = 0 }
+        }
+        sprayTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: {timer in
+            if let ctx = self.tileContext {
+                let tile = self.noiseMasks[self.nozzle][self.noiseMaskCounter]
+                let mask = tile.tileImage(context: ctx, height: self.yBounds, width: self.xBounds)
+                if self.clipped { self.context?.restoreGState() }
+                self.context?.saveGState()
+                self.context?.clip(to: CGRect(x: 0, y: 0, width: self.xBounds, height: self.yBounds), mask: mask)
+                self.clipped = true
+                self.noiseMaskCounter += 1
+                if self.noiseMaskCounter >= self.noiseMasks[self.nozzle].count { self.noiseMaskCounter = 0 }
+            }
+        })
+    }
+    
+    func stopSprayMaskTimer() {
+        if sprayTimer == nil { return }
+        sprayTimer!.invalidate()
+        sprayTimer = nil
+        if self.clipped { self.context?.restoreGState() }
     }
     
     func drawTip(x: Int, y: Int) -> UIImage? {
@@ -186,6 +272,12 @@ class CanvasView: UIView {
         delegate?.didColorChange(imageView.image!.getPixel(pixel: pixel))
     }
     
+    func changeNozzle() {
+        nozzle += 1
+        if nozzle >= nozzleSizes.count { nozzle = 0 }
+        noiseMaskCounter = 0
+    }
+    
     func createReplaceMask() {
         let image = imageView.image!
         guard let inputCGImage = image.cgImage else {
@@ -217,6 +309,39 @@ class CanvasView: UIView {
         let intermediateImage = UIImage(cgImage: intermediateCGImage, scale: image.scale, orientation: image.imageOrientation)
         
         replaceMask = intermediateImage.binarize().removeAlpha().convertToGrayScale()
+    }
+    
+    func createNoiseMask(bwRatio: Int) -> CGImage? {
+        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        let width            = 50
+        let height           = 50
+        let bytesPerPixel    = 4
+        let bitsPerComponent = 8
+        let bytesPerRow      = bytesPerPixel * width
+        let bitmapInfo       = RGBA32.bitmapInfo
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return nil
+        }
+        
+        guard let buffer = context.data else {
+            return nil
+        }
+        
+        let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
+        
+        for i in 0...(height - 1) * width + (width - 1) {
+            if Int.random(in: 0...bwRatio) > 1 {
+                pixelBuffer[i] = RGBA32.black
+            }
+            else {
+                pixelBuffer[i] = RGBA32.white
+            }
+        }
+        
+        let outputImage = UIImage(cgImage: context.makeImage()!).removeAlpha().convertToGrayScale()
+        
+        return outputImage.cgImage
     }
     
     func linearInterpolation() {
@@ -251,18 +376,24 @@ class CanvasView: UIView {
         guard let inputCGImage = imageView.image?.cgImage else {
             return
         }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
+        var colorSpace       = CGColorSpaceCreateDeviceRGB()
         let width            = inputCGImage.width
         let height           = inputCGImage.height
         let bytesPerPixel    = 4
         let bitsPerComponent = 8
         let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
+        var bitmapInfo       = RGBA32.bitmapInfo
         
         
         context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
         context?.interpolationQuality = .none
         context!.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        colorSpace       = CGColorSpaceCreateDeviceGray()
+        bitmapInfo       = CGImageAlphaInfo.noneSkipLast.rawValue
+        
+        tileContext = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+        tileContext?.interpolationQuality = .none
     }
     
     func refreshContext() {

@@ -106,4 +106,19 @@ final class PaintscapeTests: XCTestCase {
             canvas.createReplaceMask()
         }
     }
+    
+    func testCreateNoiseMasksSpeed() {
+        measure {
+            let canvas = CanvasView(frame: CGRect(x: 0, y: 0, width: 2000, height: 2000))
+//            var noiseMasks = [[UIImage]]()
+//            let sprayNozzleSizes = [3, 9, 15, 21]
+//            sprayNozzleSizes.forEach { i in
+//                var noiseMaskGroup = [UIImage]()
+//                for _ in 0...10 {
+//                    noiseMaskGroup.append(canvas.createNoiseMask(bwRatio: i))
+//                }
+//                noiseMasks.append(noiseMaskGroup)
+//            }
+        }
+    }
 }

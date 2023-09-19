@@ -11,6 +11,7 @@ enum Tool {
     case brush
     case replace
     case fill
+    case spraycan
     case eyedropper
     case none
 }
@@ -36,7 +37,7 @@ struct Stroke {
         
         let colorSpace       = CGColorSpaceCreateDeviceRGB()
         let width            = tip.width
-        let height           = tip.width
+        let height           = tip.height
         let bytesPerPixel    = 4
         let bitsPerComponent = 8
         let bytesPerRow      = bytesPerPixel * width

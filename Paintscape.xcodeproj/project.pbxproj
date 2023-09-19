@@ -23,6 +23,8 @@
 		405E8B842AB5053100329C8F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050492A9F0F8B00D0566C /* UIViewExtension.swift */; };
 		405E8B892AB61D3900329C8F /* CGColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B882AB61D3900329C8F /* CGColorExtension.swift */; };
 		405E8B8A2AB6205C00329C8F /* CGColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B882AB61D3900329C8F /* CGColorExtension.swift */; };
+		405E8B8C2AB9452000329C8F /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B8B2AB9451F00329C8F /* CGImageExtension.swift */; };
+		405E8B8F2AB98C2500329C8F /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405E8B8B2AB9451F00329C8F /* CGImageExtension.swift */; };
 		409317EC2AB0461F0057DCA7 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409317EB2AB0461F0057DCA7 /* Stack.swift */; };
 		40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0502D2A9F0E9400D0566C /* CanvasView.swift */; };
 		40D050322A9F0EA100D0566C /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D050312A9F0EA100D0566C /* AppViewController.swift */; };
@@ -78,6 +80,7 @@
 		405E8B792AB294A500329C8F /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		405E8B7C2AB3A70100329C8F /* ImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHistory.swift; sourceTree = "<group>"; };
 		405E8B882AB61D3900329C8F /* CGColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGColorExtension.swift; sourceTree = "<group>"; };
+		405E8B8B2AB9451F00329C8F /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		409317EB2AB0461F0057DCA7 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		40D0502D2A9F0E9400D0566C /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		40D050312A9F0EA100D0566C /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +189,7 @@
 				40D050492A9F0F8B00D0566C /* UIViewExtension.swift */,
 				405E8B792AB294A500329C8F /* UIImageExtension.swift */,
 				405E8B882AB61D3900329C8F /* CGColorExtension.swift */,
+				405E8B8B2AB9451F00329C8F /* CGImageExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -334,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D050442A9F0F7700D0566C /* Stroke.swift in Sources */,
+				405E8B8C2AB9452000329C8F /* CGImageExtension.swift in Sources */,
 				40D050362A9F0EAB00D0566C /* MagnifyingGlassView.swift in Sources */,
 				405E8B7D2AB3A70100329C8F /* ImageHistory.swift in Sources */,
 				40D0502E2A9F0E9400D0566C /* CanvasView.swift in Sources */,
@@ -362,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D050592A9F3E0400D0566C /* Pixel.swift in Sources */,
+				405E8B8F2AB98C2500329C8F /* CGImageExtension.swift in Sources */,
 				405E8B8A2AB6205C00329C8F /* CGColorExtension.swift in Sources */,
 				40D0505C2A9F3E2900D0566C /* CurveHelper.swift in Sources */,
 				405E8B812AB5050F00329C8F /* ImageHistory.swift in Sources */,
