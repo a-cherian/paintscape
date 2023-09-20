@@ -27,6 +27,7 @@ class CanvasView: UIView {
     var touchPoints = [Pixel]()
     var centers = [Pixel]()
     var points = [Pixel]()
+    var drawing = false
     
     var history = ImageHistory(maxItems: 50)
     var context = CGContext(data: nil, width: 200, height: 200, bitsPerComponent: 8, bytesPerRow: 800, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: RGBA32.bitmapInfo)
@@ -136,6 +137,7 @@ class CanvasView: UIView {
         if(movementEnabled || stroke.tool == .eyedropper) { return }
         
         super.touchesBegan(touches, with: event)
+        drawing = true
         guard let touch = touches.first else { return }
         let point = touch.location(in: self)
         if let pixel = Pixel(point: point, view: imageView, color: RGBA32(r: 255, g: 0, b: 0, a: 255)) {
@@ -194,6 +196,7 @@ class CanvasView: UIView {
             context?.restoreGState()
         }
         
+        drawing = false
         touchPoints = [Pixel]()
         centers = [Pixel]()
         points = [Pixel]()
@@ -258,6 +261,7 @@ class CanvasView: UIView {
     }
     
     func undo() {
+        if drawing { return }
         if let img = history.undo(image: imageView.image!) {
             imageView.image = img
             refreshContext()
@@ -266,6 +270,7 @@ class CanvasView: UIView {
     }
     
     func redo() {
+        if drawing { return }
         if let img = history.redo(image: imageView.image!) {
             imageView.image = img
             refreshContext()
