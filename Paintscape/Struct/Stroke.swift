@@ -9,11 +9,16 @@ import UIKit
 
 enum Tool {
     case brush
-    case replace
     case fill
     case spraycan
     case eyedropper
     case none
+}
+
+enum DrawMode {
+    case draw
+    case replace
+    case exclude
 }
 
 struct Stroke {
@@ -21,13 +26,15 @@ struct Stroke {
     var tip: Tip
     var primary: RGBA32
     var secondary: RGBA32
+    var drawMode: DrawMode
     var tipImage: UIImage
     
-    init(tool: Tool = .brush, tip: Tip = Tip(type: .square, r: 1), primary: RGBA32 = RGBA32(), secondary: RGBA32 = RGBA32()) {
+    init(tool: Tool = .brush, tip: Tip = Tip(type: .square, r: 1), primary: RGBA32 = RGBA32(), secondary: RGBA32 = RGBA32(), drawMode: DrawMode = .draw) {
         self.tool = tool
         self.tip = tip
         self.primary = primary
         self.secondary = secondary
+        self.drawMode = drawMode
         self.tipImage = UIImage()
         self.tipImage = getTipImage()
     }

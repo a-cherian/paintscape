@@ -14,25 +14,28 @@ protocol CanvasViewDelegate: AnyObject {
 
 class CanvasView: UIView {
     weak var delegate: CanvasViewDelegate?
-    var movementEnabled = false
-    var stroke = Stroke()
-    var replaceMask: UIImage? = UIImage()
+    
     let imageView = UIImageView()
-    private lazy var previousTouchPoint = CGPoint.zero
-    var touchPoints = [Pixel]()
-    var centers = [Pixel]()
-    var points = [Pixel]()
-    var history = ImageHistory(maxItems: 50)
     var magnifyingGlass = MagnifyingGlassView()
     var xBounds = 200
     var yBounds = 200
+    
+    var movementEnabled = false
+    var stroke = Stroke()
+    var replaceMask: UIImage? = UIImage()
+    
+    var touchPoints = [Pixel]()
+    var centers = [Pixel]()
+    var points = [Pixel]()
+    
+    var history = ImageHistory(maxItems: 50)
     var context = CGContext(data: nil, width: 200, height: 200, bitsPerComponent: 8, bytesPerRow: 800, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: RGBA32.bitmapInfo)
     var tileContext = CGContext(data: nil, width: 200, height: 200, bitsPerComponent: 8, bytesPerRow: 800, space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+    
     var noiseMasks = [[CGImage]]()
     var noiseMaskCounter = 0
     var sprayTimer: Timer? = nil
     var nozzle = 0
-    var clipped = true
     let nozzleSizes = [3, 9, 21]
     
     override init(frame: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: 200))) {
@@ -143,7 +146,7 @@ class CanvasView: UIView {
                 refreshContext()
             }
             else {
-                if stroke.tool == .replace, let mask = replaceMask?.cgImage {
+                if stroke.tool != .spraycan && (stroke.drawMode == .replace || stroke.drawMode == .exclude), let mask = replaceMask?.cgImage {
                     context?.saveGState()
                     context?.clip(to: CGRect(x: 0, y: 0, width: xBounds, height: yBounds), mask: mask)
                 }
@@ -186,8 +189,8 @@ class CanvasView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || stroke.tool == .eyedropper) { return }
-        if(stroke.tool == .replace) {
+        if movementEnabled || stroke.tool == .eyedropper { return }
+        if stroke.tool != .spraycan && (stroke.drawMode == .replace || stroke.drawMode == .exclude) {
             context?.restoreGState()
         }
         
@@ -199,12 +202,14 @@ class CanvasView: UIView {
     func startSprayMaskTimer() {
         if sprayTimer != nil { return }
         if let ctx = self.tileContext {
+            if self.stroke.drawMode == .replace || self.stroke.drawMode == .exclude, let mask = self.replaceMask?.cgImage {
+                self.context?.saveGState()
+                self.context?.clip(to: CGRect(x: 0, y: 0, width: self.xBounds, height: self.yBounds), mask: mask)
+            }
             let tile = self.noiseMasks[self.nozzle][self.noiseMaskCounter]
             let mask = tile.tileImage(context: ctx, height: self.yBounds, width: self.xBounds)
-            if self.clipped { self.context?.restoreGState() }
             self.context?.saveGState()
             self.context?.clip(to: CGRect(x: 0, y: 0, width: self.xBounds, height: self.yBounds), mask: mask)
-            self.clipped = true
             self.noiseMaskCounter += 1
             if self.noiseMaskCounter >= self.noiseMasks[self.nozzle].count { self.noiseMaskCounter = 0 }
         }
@@ -212,10 +217,9 @@ class CanvasView: UIView {
             if let ctx = self.tileContext {
                 let tile = self.noiseMasks[self.nozzle][self.noiseMaskCounter]
                 let mask = tile.tileImage(context: ctx, height: self.yBounds, width: self.xBounds)
-                if self.clipped { self.context?.restoreGState() }
+                self.context?.restoreGState()
                 self.context?.saveGState()
                 self.context?.clip(to: CGRect(x: 0, y: 0, width: self.xBounds, height: self.yBounds), mask: mask)
-                self.clipped = true
                 self.noiseMaskCounter += 1
                 if self.noiseMaskCounter >= self.noiseMasks[self.nozzle].count { self.noiseMaskCounter = 0 }
             }
@@ -226,7 +230,10 @@ class CanvasView: UIView {
         if sprayTimer == nil { return }
         sprayTimer!.invalidate()
         sprayTimer = nil
-        if self.clipped { self.context?.restoreGState() }
+        self.context?.restoreGState()
+        if self.stroke.drawMode == .replace || self.stroke.drawMode == .exclude {
+            self.context?.restoreGState()
+        }
     }
     
     func drawTip(x: Int, y: Int) -> UIImage? {
@@ -278,7 +285,7 @@ class CanvasView: UIView {
         noiseMaskCounter = 0
     }
     
-    func createReplaceMask() {
+    func createReplaceMask(exclude: Bool = false) {
         let image = imageView.image!
         guard let inputCGImage = image.cgImage else {
             return
@@ -308,7 +315,7 @@ class CanvasView: UIView {
         let intermediateCGImage = context.makeImage()!
         let intermediateImage = UIImage(cgImage: intermediateCGImage, scale: image.scale, orientation: image.imageOrientation)
         
-        replaceMask = intermediateImage.binarize().removeAlpha().convertToGrayScale()
+        replaceMask = intermediateImage.binarize(invert: !exclude).removeAlpha().convertToGrayScale()
     }
     
     func createNoiseMask(bwRatio: Int) -> CGImage? {
@@ -398,7 +405,7 @@ class CanvasView: UIView {
     
     func refreshContext() {
         generateContext()
-        if stroke.tool == .replace { createReplaceMask() }
+        if stroke.drawMode == .replace || stroke.drawMode == .exclude { createReplaceMask(exclude: stroke.drawMode == .exclude) }
     }
     
     // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
@@ -441,7 +448,7 @@ class CanvasView: UIView {
     }
     
     func fillStrokeRegion() {
-        if(stroke.tool == .brush || stroke.tool == .replace || stroke.tool == .fill) {
+        if(stroke.tool == .brush || stroke.tool == .fill) {
             guard let inputCGImage = imageView.image?.cgImage else {
                 return
             }

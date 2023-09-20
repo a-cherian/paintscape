@@ -18,8 +18,6 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let squareIcon = UIImage(named: "square_tip") ?? UIImage()
     let circleIcon = UIImage(named: "circle_tip") ?? UIImage()
     let toolsIcon = UIImage(systemName: "pencil.and.ruler") ?? UIImage()
-    let replaceOnIcon = UIImage(systemName: "square.fill.on.square.fill") ?? UIImage()
-    let replaceOffIcon = UIImage(systemName: "square.fill.on.square") ?? UIImage()
     let fillOnIcon = UIImage(systemName: "paintbrush.fill") ?? UIImage()
     let fillOffIcon = UIImage(systemName: "paintbrush") ?? UIImage()
     let spraycanOnIcon = UIImage(systemName: "humidifier.and.droplets.fill") ?? UIImage()
@@ -30,6 +28,11 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let redoIcon = UIImage(systemName: "arrow.uturn.forward") ?? UIImage()
     let menuIcon = UIImage(systemName: "line.3.horizontal") ?? UIImage()
     var toolIcon = UIImage(systemName: "paintbrush.pointed.fill") ?? UIImage()
+    
+    let drawModeIcon = UIImage(systemName: "square.fill.on.square") ?? UIImage()
+    let replaceModeIcon = UIImage(systemName: "sparkles.square.fill.on.square") ?? UIImage()
+    let excludeModeIcon = UIImage(systemName: "square.fill.on.circle.fill") ?? UIImage()
+    
     let denseNozzleIcon = UIImage(systemName: "aqi.high") ?? UIImage()
     let mediumNozzleIcon = UIImage(systemName: "aqi.medium") ?? UIImage()
     let sparseNozzleIcon = UIImage(systemName: "aqi.low") ?? UIImage()
@@ -58,18 +61,19 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var tool: Tool = .brush {
         didSet {
             setStaticButtonStyle(button: brushButton, condition: tool == .brush, iconOn: brushOnIcon, iconOff: brushOffIcon, toggleBg: true)
-            setStaticButtonStyle(button: replaceButton, condition: tool == .replace, iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
             setStaticButtonStyle(button: fillButton, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
             setStaticButtonStyle(button: spraycanButton, condition: tool == .spraycan, iconOn: spraycanOnIcon, iconOff: spraycanOffIcon, toggleBg: true)
             setStaticButtonStyle(button: eyedropperButton, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
             updateStroke(toolChange: true)
             removeEyedropper()
             removeFromStack(stack: rightTopStack, view: tipButton)
+            removeFromStack(stack: rightTopStack, view: modeButton)
             removeFromStack(stack: rightTopStack, view: nozzleButton)
             sizeSlider.removeFromSuperview()
             if tool == .eyedropper { addEyedropper() }
-            if tool == .brush || tool == .replace || tool == .spraycan {
+            if tool == .brush || tool == .spraycan {
                 rightTopStack.addArrangedSubview(tipButton)
+                rightTopStack.addArrangedSubview(modeButton)
                 view.insertSubview(sizeSlider, at: 1)
                 sizeSlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
                 sizeSlider.topAnchor.constraint(equalTo: view.topAnchor, constant: 45).isActive = true
@@ -77,7 +81,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             if tool == .spraycan {
                 rightTopStack.addArrangedSubview(nozzleButton)
             }
-            
+            if tool == .fill {
+                drawMode = .draw
+            }
             if tool == .none {
                 movementEnabled = true
             }
@@ -103,12 +109,28 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             updateStroke()
         }
     }
+    var drawMode: DrawMode = .draw {
+        didSet {
+            if drawMode == .draw {
+                setStaticButtonStyle(button: modeButton, iconOn: drawModeIcon)
+            }
+            if drawMode == .replace {
+                setStaticButtonStyle(button: modeButton, iconOn: replaceModeIcon)
+            }
+            if drawMode == .exclude {
+                setStaticButtonStyle(button: modeButton, iconOn: excludeModeIcon)
+            }
+            updateStroke()
+        }
+    }
     
     var canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     var canvasHeight = CGFloat(200)
     var canvasWidth = CGFloat(200)
     var maxScale = CGFloat(4)
     var minScale = CGFloat(0.1)
+    var maxXPan = CGFloat(5)
+    var maxYPan = CGFloat(5)
     var initialCenter = CGPoint(x: 0, y: 0)
     
     var selectedPrimaryPicker = false
@@ -150,19 +172,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return button
     }()
     
-    lazy var replaceButton: UIButton = {
-        let button = UIButton()
-        button.tag = 1
-        setStaticButtonStyle(button: button, condition: tool == .replace, iconOn: replaceOnIcon, iconOff: replaceOffIcon, toggleBg: true)
-        
-        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
-        
-        return button
-    }()
-    
     lazy var fillButton: UIButton = {
         let button = UIButton()
-        button.tag = 2
+        button.tag = 1
         setStaticButtonStyle(button: button, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
@@ -172,7 +184,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     lazy var spraycanButton: UIButton = {
         let button = UIButton()
-        button.tag = 3
+        button.tag = 2
         setStaticButtonStyle(button: button, condition: tool == .spraycan, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
@@ -182,7 +194,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     lazy var eyedropperButton: UIButton = {
         let button = UIButton()
-        button.tag = 4
+        button.tag = 3
         setStaticButtonStyle(button: button, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
@@ -277,6 +289,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return button
     }()
     
+    lazy var modeButton: UIButton = {
+        let button = UIButton()
+        setStaticButtonStyle(button: button, iconOn: drawModeIcon)
+        
+        button.addTarget(self, action: #selector(didTapModeButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
     lazy var sizeSlider: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
@@ -344,6 +365,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         stack.spacing = 20
         stack.addArrangedSubview(toolsStack)
         stack.addArrangedSubview(tipButton)
+        stack.addArrangedSubview(modeButton)
         return stack
     }()
     
@@ -454,7 +476,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.init(nibName: nil, bundle: nil)
         self.canvasHeight = height
         self.canvasWidth = width
-        toolButtons = [brushButton, replaceButton, fillButton, spraycanButton, eyedropperButton]
+        toolButtons = [brushButton, fillButton, spraycanButton, eyedropperButton]
     }
     
     required init?(coder: NSCoder) {
@@ -517,9 +539,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         guard let secRGBA = secondary.rgba else { return }
         let primary = RGBA32(r: primRGBA.r, g: primRGBA.g, b: primRGBA.b, a: primRGBA.a, nType: CGFloat.self)
         let secondary = RGBA32(r: secRGBA.r, g: secRGBA.g, b: secRGBA.b, a: secRGBA.a, nType: CGFloat.self)
-        canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary)
-        if tool == .replace && !sizeChange {
-            canvasView.createReplaceMask()
+        canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary, drawMode: drawMode)
+        if (drawMode == .replace || drawMode == .exclude) && !sizeChange {
+            canvasView.createReplaceMask(exclude: drawMode == .exclude)
         }
         if tool == .spraycan && toolChange {
             canvasView.startSprayMaskTimer()
@@ -543,6 +565,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         let initScale = min(initXScale, initYScale)
         maxScale = max(view.bounds.width / maxScale, view.bounds.height / maxScale)
         minScale = min(view.bounds.width / canvasWidth * minScale, view.bounds.height / canvasHeight * minScale)
+        maxXPan = view.bounds.width / maxXPan
+        maxYPan = view.bounds.height / maxYPan
+        
         canvasView.transform = CGAffineTransformScale(canvasView.transform, initScale, initScale);
         canvasView.center = view.center
         initialCenter = view.center
@@ -601,7 +626,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             
             let transform = CGAffineTransformScale(canvasView.transform, gesture.scale, gesture.scale);
             if transform.a > minScale && transform.a < maxScale {
-                canvasView.transform = CGAffineTransformScale(canvasView.transform, gesture.scale, gesture.scale);
+                canvasView.transform = transform
                 gesture.scale = 1
             }
         }
@@ -610,7 +635,18 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     @objc private func didPan(_ gesture: UIPanGestureRecognizer) {
         if gesture.state == .began || gesture.state == .changed {
             let translation = gesture.translation(in: canvasView)
-            canvasView.transform = CGAffineTransformTranslate(canvasView.transform, translation.x, translation.y)
+            let transform = CGAffineTransformTranslate(canvasView.transform, translation.x, translation.y)
+            // TO DO: limit panning (code below doesn't adjust for scaling)
+//            if abs(transform.tx) > maxXPan && abs(transform.ty) > maxYPan {
+//                transform = CGAffineTransformTranslate(canvasView.transform, 0, 0)
+//            }
+//            else if abs(transform.tx) > maxXPan {
+//                transform = CGAffineTransformTranslate(canvasView.transform, 0, translation.y)
+//            }
+//            else if abs(transform.ty) > maxYPan {
+//                transform = CGAffineTransformTranslate(canvasView.transform, translation.x, 0)
+//            }
+            canvasView.transform = transform
             gesture.setTranslation(CGPoint.zero, in: canvasView)
         }
     }
@@ -650,16 +686,27 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     @objc private func didTapToolButton(_ sender: UIButton) {
         var toolName: Tool = .none
         if sender.tag == 0  { toolName = .brush }
-        if sender.tag == 1  { toolName = .replace }
-        if sender.tag == 2  { toolName = .fill }
-        if sender.tag == 3  { toolName = .spraycan }
-        if sender.tag == 4  { toolName = .eyedropper }
+        if sender.tag == 1  { toolName = .fill }
+        if sender.tag == 2  { toolName = .spraycan }
+        if sender.tag == 3  { toolName = .eyedropper }
         
         if tool == toolName {
             tool = .none
         }
         else {
             tool = toolName
+        }
+    }
+    
+    @objc private func didTapModeButton() {
+        if tool == .spraycan {
+            canvasView.stopSprayMaskTimer()
+        }
+        if drawMode == .draw { drawMode = .replace}
+        else if drawMode == .replace { drawMode = .exclude }
+        else if drawMode == .exclude { drawMode = .draw }
+        if tool == .spraycan {
+            canvasView.startSprayMaskTimer()
         }
     }
     

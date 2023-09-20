@@ -104,7 +104,7 @@ extension UIImage
         return newImage
     }
     
-    func binarize() -> UIImage {
+    func binarize(invert: Bool = true) -> UIImage {
         guard let cgImage = self.cgImage else { return UIImage() }
         guard let cPolyFilter = CIFilter(name: "CIColorCrossPolynomial") else { return UIImage() }
         cPolyFilter.setDefaults()
@@ -120,10 +120,16 @@ extension UIImage
         cPolyFilter.setValue(cPolyOutput, forKey: kCIInputImageKey)
         guard let cPolyOutput2 = cPolyFilter.outputImage else { return UIImage() }
             
-        guard let invertFilter = CIFilter(name: "CIColorInvert") else { return UIImage() }
-        invertFilter.setDefaults()
-        invertFilter.setValue(cPolyOutput2, forKey: kCIInputImageKey)
-        guard let invertOutput = invertFilter.outputImage, let cgImage = CIContext().createCGImage(invertOutput, from: invertOutput.extent) else { return UIImage() }
-        return UIImage(cgImage: cgImage)
+        if invert {
+            guard let invertFilter = CIFilter(name: "CIColorInvert") else { return UIImage() }
+            invertFilter.setDefaults()
+            invertFilter.setValue(cPolyOutput2, forKey: kCIInputImageKey)
+            guard let invertOutput = invertFilter.outputImage, let cgImage = CIContext().createCGImage(invertOutput, from: invertOutput.extent) else { return UIImage() }
+            return UIImage(cgImage: cgImage)
+        }
+        else {
+            guard let cgImage = CIContext().createCGImage(cPolyOutput2, from: cPolyOutput2.extent) else { return UIImage() }
+            return UIImage(cgImage: cgImage)
+        }
     }
 }
