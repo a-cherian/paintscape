@@ -472,7 +472,7 @@ class CanvasView: UIView {
                     let offset = pixel.y * xBounds + pixel.x
                     let currColor = img[offset]
                     if stroke.tool == .fill {
-                        points.append(contentsOf: floodFill(img: img, px: Pixel(x: pixel.x, y: pixel.y, color: stroke.primary), color: currColor))
+                        points = floodFill(img: img, px: Pixel(x: pixel.x, y: pixel.y, color: stroke.primary), color: currColor)
                     }
                 }
             }
@@ -485,11 +485,7 @@ class CanvasView: UIView {
     }
     
     func floodFill(img: UnsafeMutablePointer<RGBA32>, px: Pixel, color: RGBA32) -> [Pixel] {
-        var pixels = [Pixel]()
-        var visited = [[Bool]](
-            repeating: [Bool](repeating: false, count: yBounds),
-            count: xBounds
-        )
+        var points = [Pixel: Pixel]()
         var scanStack = Stack<[Int]>()
         scanStack.push([px.x, px.x, px.y, 1])
         scanStack.push([px.x, px.x, px.y - 1, -1])
@@ -501,21 +497,24 @@ class CanvasView: UIView {
             let y = scan[2]
             let dy = scan[3]
             var x = x1
-            if inside(x: x, y: y, color: color, img: img) && !visited[x][y] {
-                while inside(x: x - 1, y: y, color: color, img: img) && !visited[x - 1][y] {
-                    pixels.append(Pixel(x: x - 1, y: y, color: stroke.primary))
-                    visited[x - 1][y] = true
+            var pixel = Pixel(x: x, y: y, color: stroke.primary)
+            if inside(x: x, y: y, color: color, img: img) && points[pixel] == nil {
+                pixel = Pixel(x: x - 1, y: y, color: stroke.primary)
+                while inside(x: x - 1, y: y, color: color, img: img) && points[pixel] == nil {
+                    points[pixel] = pixel
                     x = x - 1
+                    pixel = Pixel(x: x - 1, y: y, color: stroke.primary)
                 }
                 if x < x1 {
                     scanStack.push([x, x1 - 1, y - dy, -dy])
                 }
             }
             while x1 <= x2 {
-                while inside(x: x1, y: y, color: color, img: img) && !visited[x1][y] {
-                    pixels.append(Pixel(x: x1, y: y, color: stroke.primary))
-                    visited[x1][y] = true
+                pixel = Pixel(x: x1, y: y, color: stroke.primary)
+                while inside(x: x1, y: y, color: color, img: img) && points[pixel] == nil {
+                    points[pixel] = pixel
                     x1 = x1 + 1
+                    pixel = Pixel(x: x1, y: y, color: stroke.primary)
                 }
                 if x1 > x {
                     scanStack.push([x, x1 - 1, y + dy, dy])
@@ -524,14 +523,16 @@ class CanvasView: UIView {
                     scanStack.push([x2 + 1, x1 - 1, y - dy, -dy])
                 }
                 x1 = x1 + 1
-                while x1 < x2 && !(inside(x: x1, y: y, color: color, img: img) && !visited[x1][y]) {
+                pixel = Pixel(x: x1, y: y, color: stroke.primary)
+                while x1 < x2 && !(inside(x: x1, y: y, color: color, img: img) && points[pixel] == nil) {
                     x1 = x1 + 1
+                    pixel = Pixel(x: x1, y: y, color: stroke.primary)
                 }
                 x = x1
             }
         }
-        
-        return pixels
+        let result = Array(points.values)
+        return result
     }
     
     func inside(x: Int, y: Int, color: RGBA32, img: UnsafeMutablePointer<RGBA32>) -> Bool {
