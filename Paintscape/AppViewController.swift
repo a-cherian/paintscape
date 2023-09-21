@@ -137,6 +137,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     var pinch = UIPinchGestureRecognizer()
     var pan = UIPanGestureRecognizer()
+    var undoTap = UITapGestureRecognizer()
+    var redoTap = UITapGestureRecognizer()
     var dropperPan = UIPanGestureRecognizer()
     
     var magnifyingGlass = MagnifyingGlassView(offset: CGPoint.zero,
@@ -298,8 +300,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return button
     }()
     
-    lazy var sizeSlider: UISlider = {
-        let slider = UISlider()
+    lazy var sizeSlider: LabelSlider = {
+        let slider = LabelSlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.minimumValue = 1
         slider.maximumValue = 75
@@ -502,11 +504,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     private func addMoveGestures() {
         view.addGestureRecognizer(pinch)
         view.addGestureRecognizer(pan)
+        view.addGestureRecognizer(undoTap)
+        view.addGestureRecognizer(redoTap)
     }
     
     private func removeMoveGestures() {
         view.removeGestureRecognizer(pinch)
         view.removeGestureRecognizer(pan)
+        view.removeGestureRecognizer(undoTap)
+        view.removeGestureRecognizer(redoTap)
     }
     
     private func addEyedropper() {
@@ -585,6 +591,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         removeMoveGestures()
         pinch = UIPinchGestureRecognizer(target: self, action: #selector(didPinch(_:)))
         pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
+        undoTap = UITapGestureRecognizer(target: self, action: #selector(didTapUndoButton))
+        undoTap.numberOfTouchesRequired = 2
+        redoTap = UITapGestureRecognizer(target: self, action: #selector(didTapRedoButton))
+        redoTap.numberOfTouchesRequired = 3
         dropperPan = UIPanGestureRecognizer(target: self, action: #selector(didEyedrop(_:)))
         updateStroke(toolChange: true)
         let prevTool = tool
@@ -749,9 +759,10 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         present(colorPickerVC, animated: true)
     }
     
-    @objc private func didSizeChange(_ sender: UISlider) {
+    @objc private func didSizeChange(_ sender: LabelSlider) {
         tipSize = Int(sender.value)
         sender.value = Float(tipSize)
+        sender.thumbTextLabel.text = tipSize.description
     }
     
     
