@@ -42,6 +42,49 @@ extension UIImage
         return RGBA32()
     }
     
+    func cropImage(toRect cropRect: CGRect, view: UIImageView, mask: CGImage? = nil) -> UIImage?
+    {
+        let viewWidth = view.frame.size.width
+        let viewHeight = view.frame.size.height
+        let imageViewScale = max(self.size.width / viewWidth,
+                                 self.size.height / viewHeight)
+
+
+        // Scale cropRect to handle images larger than shown-on-screen size
+        let cropZone = CGRect(x:cropRect.origin.x * imageViewScale,
+                              y:cropRect.origin.y * imageViewScale,
+                              width:cropRect.size.width * imageViewScale,
+                              height:cropRect.size.height * imageViewScale)
+
+
+        // Perform cropping in Core Graphics
+        var cutImageRef = self.cgImage?.cropping(to:cropZone)
+        
+        if mask != nil, let mask = UIImage(cgImage: mask!).cropImage(toRect: cropRect, view: view)?.removeAlpha().convertToGrayScale().cgImage {
+            guard let croppedCGImage = cutImageRef else { return nil }
+            
+            let colorSpace       = CGColorSpaceCreateDeviceRGB()
+            let width            = croppedCGImage.width
+            let height           = croppedCGImage.height
+            let bytesPerPixel    = 4
+            let bitsPerComponent = 8
+            let bytesPerRow      = bytesPerPixel * width
+            let bitmapInfo       = RGBA32.bitmapInfo
+            
+            
+            let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+            context?.interpolationQuality = .none
+            context?.clip(to: CGRect(x: 0, y: 0, width: width, height: height), mask: mask)
+            context?.draw(croppedCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+            cutImageRef = context?.makeImage()
+        }
+        
+        guard let croppedCGImage = cutImageRef else { return nil }
+        let croppedImage: UIImage = UIImage(cgImage: croppedCGImage)
+        return croppedImage
+    }
+
+    
     func scaleProportional(width: CGFloat) -> UIImage {
         guard self.size.width != width else { return self }
         
@@ -61,7 +104,7 @@ extension UIImage
         return newImage ?? self
     }
     
-    func scale(height: CGFloat, width: CGFloat) -> UIImage {
+    func scale(width: CGFloat, height: CGFloat) -> UIImage {
         guard self.size.width != width else { return self }
         
         let newSize = CGSize(width: width, height: height)

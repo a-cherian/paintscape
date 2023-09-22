@@ -22,6 +22,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     let fillOffIcon = UIImage(systemName: "paintbrush") ?? UIImage()
     let spraycanOnIcon = UIImage(systemName: "humidifier.and.droplets.fill") ?? UIImage()
     let spraycanOffIcon = UIImage(systemName: "humidifier.and.droplets") ?? UIImage()
+    let selectIcon = UIImage(systemName: "rectangle.dashed") ?? UIImage()
+    let cropIcon = UIImage(systemName: "crop") ?? UIImage()
     let eyedropperOnIcon = UIImage(systemName: "eyedropper.full") ?? UIImage()
     let eyedropperOffIcon = UIImage(systemName: "eyedropper") ?? UIImage()
     let undoIcon = UIImage(systemName: "arrow.uturn.backward") ?? UIImage()
@@ -64,6 +66,8 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             setStaticButtonStyle(button: fillButton, condition: tool == .fill, iconOn: fillOnIcon, iconOff: fillOffIcon, toggleBg: true)
             setStaticButtonStyle(button: spraycanButton, condition: tool == .spraycan, iconOn: spraycanOnIcon, iconOff: spraycanOffIcon, toggleBg: true)
             setStaticButtonStyle(button: eyedropperButton, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
+            setStaticButtonStyle(button: selectionButton, condition: tool == .selection, iconOn: selectIcon, toggleBg: true)
+            setStaticButtonStyle(button: cropButton, condition: tool == .crop, iconOn: cropIcon, toggleBg: true)
             updateStroke(toolChange: true)
             removeEyedropper()
             removeFromStack(stack: rightTopStack, view: tipButton)
@@ -84,6 +88,14 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             if tool == .fill {
                 drawMode = .draw
             }
+            
+            if tool == .selection {
+                rightTopStack.addArrangedSubview(modeButton)
+            }
+            else {
+                canvasView.drawSelection()
+            }
+            
             if tool == .none {
                 movementEnabled = true
             }
@@ -123,6 +135,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             updateStroke()
         }
     }
+    var prevTool: Tool = .brush
     
     var canvasView = CanvasView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     var canvasHeight = CGFloat(200)
@@ -194,9 +207,29 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         return button
     }()
     
-    lazy var eyedropperButton: UIButton = {
+    lazy var selectionButton: UIButton = {
         let button = UIButton()
         button.tag = 3
+        setStaticButtonStyle(button: button, condition: tool == .selection, iconOn: selectIcon, toggleBg: true)
+        
+        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var cropButton: UIButton = {
+        let button = UIButton()
+        button.tag = 4
+        setStaticButtonStyle(button: button, condition: tool == .crop, iconOn: cropIcon, toggleBg: true)
+        
+        button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var eyedropperButton: UIButton = {
+        let button = UIButton()
+        button.tag = 5
         setStaticButtonStyle(button: button, condition: tool == .eyedropper, iconOn: eyedropperOnIcon, iconOff: eyedropperOffIcon, toggleBg: true)
         
         button.addTarget(self, action: #selector(didTapToolButton(_:)), for: .touchUpInside)
@@ -409,10 +442,11 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     lazy var leftTopStack: ContainerStackView = {
         let stack = ContainerStackView()
         stack.axis = .vertical
-        stack.alignment = .fill
+        stack.alignment = .trailing
         stack.distribution = .fillEqually
         stack.spacing = 20
         stack.addArrangedSubview(colorView)
+        stack.addArrangedSubview(eyedropperButton)
         return stack
     }()
     
@@ -478,7 +512,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.init(nibName: nil, bundle: nil)
         self.canvasHeight = height
         self.canvasWidth = width
-        toolButtons = [brushButton, fillButton, spraycanButton, eyedropperButton]
+        toolButtons = [brushButton, fillButton, spraycanButton, selectionButton, cropButton]
     }
     
     required init?(coder: NSCoder) {
@@ -547,7 +581,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         let secondary = RGBA32(r: secRGBA.r, g: secRGBA.g, b: secRGBA.b, a: secRGBA.a, nType: CGFloat.self)
         canvasView.stroke = Stroke(tool: tool, tip: Tip(type: tipType, r: Int(self.tipSize)), primary: primary, secondary: secondary, drawMode: drawMode)
         if (drawMode == .replace || drawMode == .exclude) && !sizeChange {
-            canvasView.createReplaceMask(exclude: drawMode == .exclude)
+            canvasView.createReplaceMask(invert: (drawMode == .exclude) != (tool == .selection))
         }
         if tool == .spraycan && toolChange {
             canvasView.startSprayMaskTimer()
@@ -599,6 +633,16 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         updateStroke(toolChange: true)
         let prevTool = tool
         tool = prevTool
+    }
+    
+    func refreshCanvas(height: CGFloat, width: CGFloat, image: UIImage? = nil) {
+        let history = canvasView.history
+        createCanvas(height: height, width: width)
+        if image != nil {
+            canvasView.imageView.image = image
+            canvasView.refreshContext()
+        }
+        canvasView.history = history
     }
     
     func setStaticButtonStyle(button: UIButton, condition: Bool = true, iconOn: UIImage, iconOff: UIImage? = nil, toggleBg: Bool = false) {
@@ -667,6 +711,7 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
         if gesture.state == .ended {
             magnifyingGlass.magnifiedView = nil
+            tool = prevTool
         }
         magnifyingGlass.magnify(at: gesture.location(in: canvasView))
         canvasView.eyedropper(location: gesture.location(in: canvasView))
@@ -694,11 +739,15 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     @objc private func didTapToolButton(_ sender: UIButton) {
+        prevTool = tool
+        
         var toolName: Tool = .none
         if sender.tag == 0  { toolName = .brush }
         if sender.tag == 1  { toolName = .fill }
         if sender.tag == 2  { toolName = .spraycan }
-        if sender.tag == 3  { toolName = .eyedropper }
+        if sender.tag == 3  { toolName = .selection }
+        if sender.tag == 4  { toolName = .crop }
+        if sender.tag == 5  { toolName = .eyedropper }
         
         if tool == toolName {
             tool = .none
@@ -804,6 +853,11 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         dismiss(animated: true, completion: nil)
     }
     
+    func didCropOccur(image: UIImage) {
+        refreshCanvas(height: image.size.height, width: image.size.width, image: image)
+        dismiss(animated: true, completion: nil)
+    }
+    
     func didLoadOccur(image: UIImage) {
         createCanvas(height: image.size.height, width: image.size.width)
         canvasView.imageView.image = image
@@ -812,10 +866,9 @@ class AppViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     func didResizeOccur(height: Int, width: Int) {
-        let resizedImage = canvasView.imageView.image?.scale(height: CGFloat(height), width: CGFloat(width))
-        createCanvas(height: CGFloat(height), width: CGFloat(width))
-        canvasView.imageView.image = resizedImage
-        canvasView.refreshContext()
+        let resizedImage = canvasView.imageView.image?.scale(width: CGFloat(width), height: CGFloat(height))
+        canvasView.history.add(image: canvasView.imageView.image!)
+        refreshCanvas(height: CGFloat(height), width: CGFloat(width), image: resizedImage)
         dismiss(animated: true, completion: nil)
     }
     

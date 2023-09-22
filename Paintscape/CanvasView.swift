@@ -10,12 +10,14 @@ import SwiftUI
 
 protocol CanvasViewDelegate: AnyObject {
     func didColorChange(_ color: RGBA32)
+    func didCropOccur(image: UIImage)
 }
 
 class CanvasView: UIView {
     weak var delegate: CanvasViewDelegate?
     
     let imageView = UIImageView()
+    var selection = SelectionView()
     var magnifyingGlass = MagnifyingGlassView()
     var xBounds = 200
     var yBounds = 200
@@ -38,6 +40,12 @@ class CanvasView: UIView {
     var sprayTimer: Timer? = nil
     var nozzle = 0
     let nozzleSizes = [3, 9, 21]
+    
+    var selectStart = CGPoint(x: 0, y: 0)
+    var selectRect: CGRect? = nil
+    var dragging = false
+    var firstDrag = true
+    var dragOffset = CGPoint(x: 0, y: 0)
     
     override init(frame: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: 200))) {
         super.init(frame: frame)
@@ -136,47 +144,104 @@ class CanvasView: UIView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(movementEnabled || stroke.tool == .eyedropper) { return }
         
-        super.touchesBegan(touches, with: event)
         drawing = true
+        super.touchesBegan(touches, with: event)
         guard let touch = touches.first else { return }
         let point = touch.location(in: self)
-        if let pixel = Pixel(point: point, view: imageView, color: RGBA32(r: 255, g: 0, b: 0, a: 255)) {
+        let pixel = Pixel(point: point, view: imageView, color: RGBA32(r: 255, g: 0, b: 0, a: 255))
+        
+        if stroke.tool != .spraycan && (stroke.drawMode == .replace || stroke.drawMode == .exclude), let mask = replaceMask?.cgImage {
+            context?.saveGState()
+            context?.clip(to: CGRect(x: 0, y: 0, width: xBounds, height: yBounds), mask: mask)
+        }
+        
+        if stroke.tool == .fill {
             history.add(image: imageView.image!)
-            if stroke.tool == .fill {
-                centers.append(pixel)
-                fillStrokeRegion()
-                refreshContext()
+            centers.append(pixel)
+            fillStrokeRegion()
+            refreshContext()
+        }
+        else if stroke.tool == .selection || stroke.tool == .crop {
+            if (selectRect == nil || !selectRect!.contains(point)) || stroke.tool == .crop {
+                drawSelection()
+                selection.clearView()
+                addSubview(selection)
+                selection.transform = CGAffineTransformIdentity
+                selectStart = point.pixelAlign(view: imageView)
+                firstDrag = true
             }
             else {
-                if stroke.tool != .spraycan && (stroke.drawMode == .replace || stroke.drawMode == .exclude), let mask = replaceMask?.cgImage {
-                    context?.saveGState()
-                    context?.clip(to: CGRect(x: 0, y: 0, width: xBounds, height: yBounds), mask: mask)
+                dragging = true
+                let alignedPoint = point.pixelAlign(view: imageView)
+                dragOffset = CGPoint(x: alignedPoint.x - selection.transform.tx, y: alignedPoint.y - selection.transform.ty)
+                
+                if firstDrag {
+                    let prim = stroke.primary
+                    let primCG = CGColor.fromRGB(rgba: [CGFloat(prim.redComponent) / 255, CGFloat(prim.greenComponent) / 255, CGFloat(prim.blueComponent) / 255, CGFloat(prim.alphaComponent) / 255])
+                    
+                    context?.setFillColor(primCG)
+                    context?.fill(CGRect(x: selectRect!.minX, y: CGFloat(yBounds) - selectRect!.maxY, width: selectRect!.width, height: selectRect!.height))
+                    guard let outputCGImage = context?.makeImage() else {
+                        return
+                    }
+                    history.add(image: imageView.image!)
+                    imageView.image = UIImage(cgImage: outputCGImage, scale: imageView.image!.scale, orientation: imageView.image!.imageOrientation)
                 }
-                imageView.image = drawTip(x: pixel.x, y: pixel.y) ?? imageView.image
-                touchPoints.append(pixel)
+                firstDrag = false
+                
+                return
             }
         }
+        else {
+            history.add(image: imageView.image!)
+//            if stroke.tool != .spraycan && stroke.tool != .selection && (stroke.drawMode == .replace || stroke.drawMode == .exclude), let mask = replaceMask?.cgImage {
+//                context?.saveGState()
+//                context?.clip(to: CGRect(x: 0, y: 0, width: xBounds, height: yBounds), mask: mask)
+//            }
+            imageView.image = drawTip(x: pixel.x, y: pixel.y) ?? imageView.image
+            touchPoints.append(pixel)
+        }
+        
         setNeedsDisplay()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(movementEnabled || stroke.tool == .eyedropper || stroke.tool == .fill) { return }
+        if(movementEnabled || stroke.tool == .eyedropper || stroke.tool == .fill || stroke.tool == .crop) { return }
         
         super.touchesMoved(touches, with: event)
         touches.forEach { touch in
             if let coalescedTouches = event?.coalescedTouches(for: touch) {
                 coalescedTouches.forEach { coalescedTouch in
-                    if let pixel = Pixel(point: coalescedTouch.location(in: self), view: imageView, color: stroke.primary) {
-                        touchPoints.append(pixel)
-                        centers.append(pixel)
-                    }
-                }
-            } else {
-                if let pixel = Pixel(point: touch.location(in: self), view: imageView, color: stroke.primary) {
+                    let pixel = Pixel(point: coalescedTouch.location(in: self), view: imageView, color: stroke.primary)
                     touchPoints.append(pixel)
                     centers.append(pixel)
                 }
+            } else {
+                let pixel = Pixel(point: touch.location(in: self), view: imageView, color: stroke.primary)
+                touchPoints.append(pixel)
+                centers.append(pixel)
             }
+        }
+        
+        if stroke.tool == .selection {
+            touches.forEach { touch in
+                let location = touch.location(in: self).pixelAlign(view: imageView)
+                if dragging {
+                    let difference = CGPoint(x: location.x - dragOffset.x, y: location.y - dragOffset.y)
+                    selectRect = selectRect?.offsetBy(dx: difference.x - selection.transform.tx, dy: difference.y - selection.transform.ty)
+                    selection.transform = CGAffineTransformTranslate(selection.transform, difference.x - selection.transform.tx, difference.y - selection.transform.ty)
+                }
+                else {
+                    let selectEnd = location.pixelAlign(view: imageView)
+                    let selectWidth = abs(selectStart.x - selectEnd.x)
+                    let selectHeight = abs(selectStart.y - selectEnd.y)
+                    let upperRight = CGPoint(x: min(selectStart.x, selectEnd.x), y: min(selectStart.y, selectEnd.y)).pixelAlign(view: imageView)
+                    selection.transform = CGAffineTransformIdentity
+                    selection.transform = CGAffineTransformTranslate(selection.transform, upperRight.x, upperRight.y)
+                    if selectWidth != 0 && selectHeight != 0 { selection.setBorder(width: selectWidth, height: selectHeight) }
+                }
+            }
+            return
         }
         
         linearInterpolation()
@@ -192,10 +257,35 @@ class CanvasView: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if movementEnabled || stroke.tool == .eyedropper { return }
+        
+        guard let touch = touches.first else { return }
+        let point = touch.location(in: self)
+        
+        if (stroke.tool == .selection && !dragging) || stroke.tool == .crop {
+            let selectEnd = point.pixelAlign(view: imageView)
+            let selectWidth = abs(selectStart.x - selectEnd.x)
+            let selectHeight = abs(selectStart.y - selectEnd.y)
+            let upperRight = CGPoint(x: min(selectStart.x, selectEnd.x), y: min(selectStart.y, selectEnd.y)).pixelAlign(view: imageView)
+            selectRect = CGRect(x: upperRight.x, y: upperRight.y, width: selectWidth, height: selectHeight)
+            if let croppedImage = imageView.image?.cropImage(toRect: selectRect!, view: imageView), let croppedMaskedImage = imageView.image?.cropImage(toRect: selectRect!, view: imageView, mask: replaceMask?.cgImage) {
+                if stroke.tool == .selection {
+                    if stroke.drawMode == .replace || stroke.drawMode == .exclude { selection.setImage(image: croppedMaskedImage) }
+                    else { selection.setImage(image: croppedImage) }
+                    selection.transform = CGAffineTransformIdentity
+                    selection.transform = CGAffineTransformTranslate(selection.transform, upperRight.x, upperRight.y)
+                }
+                if stroke.tool == .crop {
+                    history.add(image: imageView.image!)
+                    delegate?.didCropOccur(image: croppedImage)
+                }
+            }
+        }
+        
         if stroke.tool != .spraycan && (stroke.drawMode == .replace || stroke.drawMode == .exclude) {
             context?.restoreGState()
         }
-        
+    
+        dragging = false
         drawing = false
         touchPoints = [Pixel]()
         centers = [Pixel]()
@@ -242,7 +332,6 @@ class CanvasView: UIView {
     func drawTip(x: Int, y: Int) -> UIImage? {
         guard let tipCGImage = stroke.tipImage.cgImage else { return nil }
         guard let img = imageView.image else { return nil }
-        context?.interpolationQuality = .none
         
         let tipWidth = stroke.tipImage.size.width
         let tipHeight = stroke.tipImage.size.height
@@ -260,18 +349,40 @@ class CanvasView: UIView {
         return outputImage
     }
     
+    func drawSelection() {
+        if let selectionCGImage = selection.selection.image?.cgImage, let sR = selectRect {
+            context?.draw(selectionCGImage, in: CGRect(x: sR.minX, y: CGFloat(yBounds) - sR.maxY, width: sR.width, height: sR.height))
+            guard let outputCGImage = context?.makeImage() else { return }
+            imageView.image = UIImage(cgImage: outputCGImage, scale: imageView.image!.scale, orientation: imageView.image!.imageOrientation)
+            refreshContext()
+        }
+        selection.clearView()
+        selection.removeFromSuperview()
+    }
+    
     func undo() {
         if drawing { return }
+        drawSelection()
         if let img = history.undo(image: imageView.image!) {
-            imageView.image = img
-            refreshContext()
+            if imageView.image!.size.width != img.size.width || imageView.image!.size.height != img.size.height {
+                delegate?.didCropOccur(image: img)
+            }
+            else {
+                imageView.image = img
+                refreshContext()
+            }
         }
         setNeedsDisplay()
     }
     
     func redo() {
         if drawing { return }
+        drawSelection()
+        selection.removeFromSuperview()
         if let img = history.redo(image: imageView.image!) {
+            if imageView.image!.size.width != img.size.width || imageView.image!.size.height != img.size.height {
+                delegate?.didCropOccur(image: img)
+            }
             imageView.image = img
             refreshContext()
         }
@@ -279,8 +390,7 @@ class CanvasView: UIView {
     }
     
     func eyedropper(location: CGPoint) {
-        guard let pixel = Pixel(point: location, view: imageView, color: RGBA32()) else { return }
-        
+        let pixel = Pixel(point: location, view: imageView, color: RGBA32())
         delegate?.didColorChange(imageView.image!.getPixel(pixel: pixel))
     }
     
@@ -290,7 +400,7 @@ class CanvasView: UIView {
         noiseMaskCounter = 0
     }
     
-    func createReplaceMask(exclude: Bool = false) {
+    func createReplaceMask(invert: Bool = false) {
         let image = imageView.image!
         guard let inputCGImage = image.cgImage else {
             return
@@ -320,7 +430,7 @@ class CanvasView: UIView {
         let intermediateCGImage = context.makeImage()!
         let intermediateImage = UIImage(cgImage: intermediateCGImage, scale: image.scale, orientation: image.imageOrientation)
         
-        replaceMask = intermediateImage.binarize(invert: !exclude).removeAlpha().convertToGrayScale()
+        replaceMask = intermediateImage.binarize(invert: !invert).removeAlpha().convertToGrayScale()
     }
     
     func createNoiseMask(bwRatio: Int) -> CGImage? {
@@ -410,7 +520,7 @@ class CanvasView: UIView {
     
     func refreshContext() {
         generateContext()
-        if stroke.drawMode == .replace || stroke.drawMode == .exclude { createReplaceMask(exclude: stroke.drawMode == .exclude) }
+        if stroke.drawMode == .replace || stroke.drawMode == .exclude { createReplaceMask(invert: (stroke.drawMode == .exclude) != (stroke.tool == .selection)) }
     }
     
     // https://stackoverflow.com/questions/31661023/change-color-of-certain-pixels-in-a-uiimage
@@ -453,7 +563,7 @@ class CanvasView: UIView {
     }
     
     func fillStrokeRegion() {
-        if(stroke.tool == .brush || stroke.tool == .fill) {
+        if(stroke.tool == .fill) {
             guard let inputCGImage = imageView.image?.cgImage else {
                 return
             }

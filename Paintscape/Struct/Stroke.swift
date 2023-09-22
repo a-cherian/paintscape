@@ -11,6 +11,8 @@ enum Tool {
     case brush
     case fill
     case spraycan
+    case selection
+    case crop
     case eyedropper
     case none
 }
